@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+:root{
+--mint:#34C6A8;--mint-d:#1E9E84;--mint-tint:#E3F7F1;--mint-tint2:#D2F0E8;
+--bg:#FAF6F1;--ink:#2C3A37;--ink2:#73837E;--ink3:#9CABA6;--line:#EFE8DF;--card:#FFFFFF;
+--c-food:#FF9E8A;--c-groc:#8FD884;--c-trans:#84C5F4;--c-shop:#F79FC4;--c-bills:#FFC36B;
+--c-rent:#B0A4F5;--c-health:#FF8FA8;--c-ent:#C58DEA;--c-travel:#5FCFD6;--c-edu:#F2C14E;--c-other:#AEB8B5;
+}
+*{box-sizing:border-box}
+body{font-family:'Nunito',system-ui,sans-serif;margin:0;-webkit-font-smoothing:antialiased}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes pop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+@keyframes confettiFall{0%{transform:translateY(-12px) rotate(0)}100%{transform:translateY(120px) rotate(220deg)}}
+.scr{font-family:'Nunito',sans-serif;color:var(--ink)}
+</style>
+</helmet>
+
+<!-- ===== TITLE / LEGEND ===== -->
+<div style="position:absolute;left:80px;top:60px;width:560px">
+  <div style="display:flex;align-items:center;gap:16px">
+    <div style="width:62px;height:62px;border-radius:20px;background:linear-gradient(150deg,#3FD3B3,#1E9E84);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px rgba(30,158,132,.32)">
+      <svg width="34" height="34" viewBox="0 0 34 34"><circle cx="17" cy="17" r="13" fill="#fff"/><text x="17" y="23" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="18" fill="#1E9E84">₹</text></svg>
+    </div>
+    <div>
+      <div style="font:900 40px 'Nunito';color:var(--ink);letter-spacing:-1px">Spendly</div>
+      <div style="font:700 15px 'Nunito';color:var(--ink2);margin-top:2px">Complete expense-tracker UI · mobile-first · light + dark</div>
+    </div>
+  </div>
+</div>
+<div style="position:absolute;left:700px;top:64px;width:300px;background:#FEF4A8;padding:14px 16px;font:700 12.5px/1.5 'Nunito';color:#6b5e1f;box-shadow:0 2px 10px rgba(0,0,0,.08);transform:rotate(-1.2deg);border-radius:4px">
+  Pan & zoom the canvas. Screens read left→right as real flows; arrows show progression. ₹ INR sample data throughout.
+</div>
+
+<!-- ============================================================= -->
+<!-- ROW A — ONBOARDING & AUTH -->
+<!-- ============================================================= -->
+<div style="position:absolute;left:80px;top:210px;font:900 22px 'Nunito';color:var(--ink)">A · Onboarding & Auth<span style="font:700 14px 'Nunito';color:var(--ink3);margin-left:12px">first-time setup → into the app</span></div>
+
+<!-- A1 Welcome -->
+<div style="position:absolute;left:80px;top:260px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">A1 · Welcome</div>
+  <div class="scr" style="background:linear-gradient(165deg,#E3F7F1,#FAF6F1 55%);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 30px;text-align:center">
+      <div style="animation:floaty 4s ease-in-out infinite">
+        <svg width="128" height="128" viewBox="0 0 128 128"><ellipse cx="64" cy="118" rx="34" ry="6" fill="#1E9E84" opacity=".10"/><circle cx="64" cy="60" r="46" fill="#FFD56B"/><circle cx="64" cy="60" r="46" fill="none" stroke="#F2BE45" stroke-width="4"/><circle cx="64" cy="60" r="35" fill="none" stroke="#F2BE45" stroke-width="2.5" stroke-dasharray="2 5" opacity=".55"/><text x="64" y="50" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="20" fill="#E0A92E">₹</text><circle cx="53" cy="63" r="4.4" fill="#3A2E1E"/><circle cx="75" cy="63" r="4.4" fill="#3A2E1E"/><circle cx="54.5" cy="61.5" r="1.4" fill="#fff"/><circle cx="76.5" cy="61.5" r="1.4" fill="#fff"/><path d="M54 73 q10 9 20 0" stroke="#3A2E1E" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="44" cy="69" r="4" fill="#FF9E8A" opacity=".55"/><circle cx="84" cy="69" r="4" fill="#FF9E8A" opacity=".55"/></svg>
+      </div>
+      <div style="font:900 30px 'Nunito';margin-top:26px;letter-spacing:-.5px">Money, made<br>friendly.</div>
+      <div style="font:600 15px/1.5 'Nunito';color:var(--ink2);margin-top:12px">Track every rupee in seconds.<br>Meet Penny — your spending buddy.</div>
+    </div>
+    <div style="padding:0 24px 30px;display:flex;flex-direction:column;gap:11px">
+      <div style="background:var(--mint);color:#fff;font:800 16px 'Nunito';text-align:center;padding:16px;border-radius:18px;box-shadow:0 8px 20px rgba(52,198,168,.4)">Get started</div>
+      <div style="font:700 14px 'Nunito';color:var(--ink2);text-align:center">I already have an account</div>
+    </div>
+  </div>
+</div>
+
+<!-- A2 Sign up -->
+<div style="position:absolute;left:450px;top:260px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">A2 · Sign up</div>
+  <div class="scr" style="background:var(--bg);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="padding:8px 26px 0">
+      <div style="font:900 26px 'Nunito';letter-spacing:-.5px">Create account</div>
+      <div style="font:600 14px 'Nunito';color:var(--ink2);margin-top:3px">Start tracking in under a minute</div>
+    </div>
+    <div style="padding:20px 26px;display:flex;flex-direction:column;gap:13px;flex:1">
+      <div>
+        <div style="font:800 12px 'Nunito';color:var(--ink2);margin-bottom:6px">NAME <span style="font-weight:700;color:var(--ink3)">(optional)</span></div>
+        <div style="background:#fff;border:1.5px solid var(--line);border-radius:15px;padding:13px 15px;font:700 14px 'Nunito';color:var(--ink)">Aanya Sharma</div>
+      </div>
+      <div>
+        <div style="font:800 12px 'Nunito';color:var(--ink2);margin-bottom:6px">EMAIL</div>
+        <div style="background:#fff;border:1.5px solid var(--mint);border-radius:15px;padding:13px 15px;font:700 14px 'Nunito';color:var(--ink);box-shadow:0 0 0 4px var(--mint-tint)">aanya@email.com</div>
+      </div>
+      <div>
+        <div style="font:800 12px 'Nunito';color:var(--ink2);margin-bottom:6px">PASSWORD</div>
+        <div style="background:#fff;border:1.5px solid var(--line);border-radius:15px;padding:13px 15px;font:700 14px 'Nunito';color:var(--ink);display:flex;justify-content:space-between;align-items:center"><span style="letter-spacing:2px">••••••••</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CABA6" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <div style="display:flex;gap:5px;margin-top:8px;align-items:center">
+          <div style="height:6px;flex:1;border-radius:4px;background:var(--mint)"></div>
+          <div style="height:6px;flex:1;border-radius:4px;background:var(--mint)"></div>
+          <div style="height:6px;flex:1;border-radius:4px;background:var(--mint)"></div>
+          <div style="height:6px;flex:1;border-radius:4px;background:var(--line)"></div>
+          <span style="font:800 11px 'Nunito';color:var(--mint-d);margin-left:4px">Strong</span>
+        </div>
+      </div>
+      <div>
+        <div style="font:800 12px 'Nunito';color:var(--ink2);margin-bottom:6px">CONFIRM PASSWORD</div>
+        <div style="background:#fff;border:1.5px solid var(--line);border-radius:15px;padding:13px 15px;font:700 14px 'Nunito';color:var(--ink);display:flex;justify-content:space-between;align-items:center"><span style="letter-spacing:2px">••••••••</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8FD884" stroke-width="3" stroke-linecap="round"><path d="m20 6-11 11-5-5"/></svg></div>
+      </div>
+    </div>
+    <div style="padding:0 26px 26px">
+      <div style="background:var(--mint);color:#fff;font:800 16px 'Nunito';text-align:center;padding:16px;border-radius:18px;box-shadow:0 8px 20px rgba(52,198,168,.4)">Create account</div>
+      <div style="text-align:center;font:700 13px 'Nunito';color:var(--ink2);margin-top:14px">Already a member? <span style="color:var(--mint-d);font-weight:800">Log in</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- A3 Log in -->
+<div style="position:absolute;left:820px;top:260px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">A3 · Log in (error state)</div>
+  <div class="scr" style="background:var(--bg);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 26px">
+      <div style="display:flex;justify-content:center;margin-bottom:18px"><svg width="64" height="64" viewBox="0 0 128 128"><circle cx="64" cy="60" r="46" fill="#FFD56B"/><circle cx="64" cy="60" r="46" fill="none" stroke="#F2BE45" stroke-width="4"/><text x="64" y="52" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="20" fill="#E0A92E">₹</text><circle cx="53" cy="63" r="4.4" fill="#3A2E1E"/><circle cx="75" cy="63" r="4.4" fill="#3A2E1E"/><path d="M54 73 q10 9 20 0" stroke="#3A2E1E" stroke-width="4" fill="none" stroke-linecap="round"/></svg></div>
+      <div style="font:900 27px 'Nunito';text-align:center;letter-spacing:-.5px">Welcome back!</div>
+      <div style="font:600 14px 'Nunito';color:var(--ink2);text-align:center;margin-top:3px;margin-bottom:22px">Log in to keep tracking</div>
+      <div style="background:#FFEDEA;border:1px solid #FFC9C0;border-radius:13px;padding:11px 14px;display:flex;gap:9px;align-items:center;margin-bottom:14px">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E66A55" stroke-width="2.4"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16h0" stroke-linecap="round"/></svg>
+        <span style="font:700 12.5px 'Nunito';color:#C8503C">Email or password is incorrect</span>
+      </div>
+      <div style="font:800 12px 'Nunito';color:var(--ink2);margin-bottom:6px">EMAIL</div>
+      <div style="background:#fff;border:1.5px solid var(--line);border-radius:15px;padding:13px 15px;font:700 14px 'Nunito';margin-bottom:13px">aanya@email.com</div>
+      <div style="font:800 12px 'Nunito';color:var(--ink2);margin-bottom:6px">PASSWORD</div>
+      <div style="background:#fff;border:1.5px solid #FFC9C0;border-radius:15px;padding:13px 15px;font:700 14px 'Nunito';display:flex;justify-content:space-between;align-items:center"><span style="letter-spacing:2px">••••••</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CABA6" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px">
+        <div style="display:flex;gap:8px;align-items:center"><div style="width:22px;height:22px;border-radius:7px;background:var(--mint);display:flex;align-items:center;justify-content:center"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"><path d="m20 6-11 11-5-5"/></svg></div><span style="font:700 13px 'Nunito';color:var(--ink)">Remember me</span></div>
+        <span style="font:800 13px 'Nunito';color:var(--mint-d)">Forgot?</span>
+      </div>
+    </div>
+    <div style="padding:0 26px 26px"><div style="background:var(--mint);color:#fff;font:800 16px 'Nunito';text-align:center;padding:16px;border-radius:18px;box-shadow:0 8px 20px rgba(52,198,168,.4)">Log in</div></div>
+  </div>
+</div>
+
+<!-- A4 Forgot -->
+<div style="position:absolute;left:1190px;top:260px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">A4 · Forgot password</div>
+  <div class="scr" style="background:var(--bg);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="padding:6px 22px 0"><div style="width:38px;height:38px;border-radius:12px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2C3A37" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></div></div>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 28px;text-align:center;align-items:center">
+      <div style="width:96px;height:96px;border-radius:30px;background:var(--mint-tint);display:flex;align-items:center;justify-content:center;animation:floaty 4s ease-in-out infinite"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#1E9E84" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m3 7 9 6 9-6"/></svg></div>
+      <div style="font:900 26px 'Nunito';margin-top:24px;letter-spacing:-.5px">Forgot password?</div>
+      <div style="font:600 14px/1.5 'Nunito';color:var(--ink2);margin-top:10px">No worries — enter your email and we'll send a reset link.</div>
+      <div style="width:100%;text-align:left;margin-top:24px;font:800 12px 'Nunito';color:var(--ink2);margin-bottom:6px">EMAIL</div>
+      <div style="width:100%;background:#fff;border:1.5px solid var(--mint);border-radius:15px;padding:13px 15px;font:700 14px 'Nunito';text-align:left;box-shadow:0 0 0 4px var(--mint-tint)">aanya@email.com</div>
+    </div>
+    <div style="padding:0 28px 26px"><div style="background:var(--mint);color:#fff;font:800 16px 'Nunito';text-align:center;padding:16px;border-radius:18px;box-shadow:0 8px 20px rgba(52,198,168,.4)">Send reset link</div></div>
+  </div>
+</div>
+
+<!-- A5 Reset -->
+<div style="position:absolute;left:1560px;top:260px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">A5 · Reset password</div>
+  <div class="scr" style="background:var(--bg);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="padding:14px 28px 0">
+      <div style="width:74px;height:74px;border-radius:24px;background:var(--mint-tint);display:flex;align-items:center;justify-content:center;margin-bottom:18px"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#1E9E84" stroke-width="1.9"><rect x="4" y="10" width="16" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+      <div style="font:900 25px 'Nunito';letter-spacing:-.5px">Set a new password</div>
+      <div style="font:600 14px/1.5 'Nunito';color:var(--ink2);margin-top:6px">Make it at least 8 characters with a letter and a number.</div>
+    </div>
+    <div style="padding:22px 28px;display:flex;flex-direction:column;gap:14px;flex:1">
+      <div>
+        <div style="font:800 12px 'Nunito';color:var(--ink2);margin-bottom:6px">NEW PASSWORD</div>
+        <div style="background:#fff;border:1.5px solid var(--line);border-radius:15px;padding:13px 15px;font:700 14px 'Nunito';display:flex;justify-content:space-between;align-items:center"><span style="letter-spacing:2px">••••••••••</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CABA6" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <div style="display:flex;gap:5px;margin-top:8px;align-items:center"><div style="height:6px;flex:1;border-radius:4px;background:var(--mint)"></div><div style="height:6px;flex:1;border-radius:4px;background:var(--mint)"></div><div style="height:6px;flex:1;border-radius:4px;background:#FFC36B"></div><div style="height:6px;flex:1;border-radius:4px;background:var(--line)"></div><span style="font:800 11px 'Nunito';color:#D9952A;margin-left:4px">Good</span></div>
+      </div>
+      <div>
+        <div style="font:800 12px 'Nunito';color:var(--ink2);margin-bottom:6px">CONFIRM PASSWORD</div>
+        <div style="background:#fff;border:1.5px solid var(--line);border-radius:15px;padding:13px 15px;font:700 14px 'Nunito';display:flex;justify-content:space-between;align-items:center"><span style="letter-spacing:2px">••••••••••</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8FD884" stroke-width="3" stroke-linecap="round"><path d="m20 6-11 11-5-5"/></svg></div>
+      </div>
+    </div>
+    <div style="padding:0 28px 26px"><div style="background:var(--mint);color:#fff;font:800 16px 'Nunito';text-align:center;padding:16px;border-radius:18px;box-shadow:0 8px 20px rgba(52,198,168,.4)">Reset password</div></div>
+  </div>
+</div>
+
+<!-- A6 Email verify reminder -->
+<div style="position:absolute;left:1930px;top:260px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">A6 · Email verify banner</div>
+  <div class="scr" style="background:var(--bg);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="padding:8px 20px 0;display:flex;justify-content:space-between;align-items:center"><div style="font:900 22px 'Nunito'">Home</div><div style="width:34px;height:34px;border-radius:50%;background:var(--c-rent);display:flex;align-items:center;justify-content:center;font:900 14px 'Nunito';color:#fff">A</div></div>
+    <!-- verify banner -->
+    <div style="margin:16px 18px 0;background:linear-gradient(135deg,#FFF4DC,#FFEBC4);border:1px solid #FFD98A;border-radius:18px;padding:14px;display:flex;gap:12px;align-items:flex-start">
+      <div style="width:40px;height:40px;border-radius:13px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E0A92E" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m3 7 9 6 9-6"/></svg></div>
+      <div style="flex:1">
+        <div style="font:800 13.5px 'Nunito';color:#8A6914">Verify your email</div>
+        <div style="font:600 12px/1.45 'Nunito';color:#9A7A2C;margin-top:2px">We sent a link to aanya@email.com. Verify to secure your account.</div>
+        <div style="display:flex;gap:8px;margin-top:10px"><div style="background:#E0A92E;color:#fff;font:800 11.5px 'Nunito';padding:7px 13px;border-radius:11px">Resend email</div><div style="font:800 11.5px 'Nunito';color:#9A7A2C;padding:7px 6px">Dismiss</div></div>
+      </div>
+    </div>
+    <div style="padding:18px 20px 0;font:800 12px 'Nunito';color:var(--ink3)">YOUR BALANCE THIS MONTH</div>
+    <div style="padding:2px 20px 0;font:900 34px 'Nunito';color:var(--ink)">₹0<span style="font:800 16px 'Nunito';color:var(--ink3)"> spent</span></div>
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 30px;text-align:center;color:var(--ink2)">
+      <svg width="74" height="74" viewBox="0 0 128 128" opacity=".9"><circle cx="64" cy="60" r="40" fill="#E3F7F1"/><text x="64" y="56" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="18" fill="#34C6A8">₹</text><circle cx="55" cy="62" r="3.6" fill="#34C6A8"/><circle cx="73" cy="62" r="3.6" fill="#34C6A8"/><path d="M55 71 q9 7 18 0" stroke="#34C6A8" stroke-width="3.4" fill="none" stroke-linecap="round"/></svg>
+      <div style="font:800 15px 'Nunito';margin-top:14px;color:var(--ink)">Nothing here yet</div>
+      <div style="font:600 13px 'Nunito';margin-top:4px">Add your first expense to get going</div>
+    </div>
+    <div style="position:absolute;right:20px;bottom:84px;width:58px;height:58px;border-radius:20px;background:var(--mint);box-shadow:0 10px 22px rgba(52,198,168,.5);display:flex;align-items:center;justify-content:center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+    <div style="height:62px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-around;padding:0 8px;background:#fff">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="#34C6A8"><path d="M3 11l9-8 9 8v9a2 2 0 0 1-2 2h-4v-6h-6v6H5a2 2 0 0 1-2-2z"/></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9CABA6" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9CABA6" stroke-width="2"><path d="M3 3v18h18M7 14l4-4 3 3 5-6"/></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9CABA6" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================= -->
+<!-- ROW B — FIRST-RUN FLOW -->
+<!-- ============================================================= -->
+<div style="position:absolute;left:80px;top:1010px;font:900 22px 'Nunito';color:var(--ink)">B · First expense flow<span style="font:700 14px 'Nunito';color:var(--ink3);margin-left:12px">empty → add → celebrate → live dashboard</span></div>
+
+<!-- flow arrows -->
+<div style="position:absolute;left:388px;top:1368px"><svg width="52" height="26" viewBox="0 0 52 26" fill="none" stroke="#C2CFCA" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13h44m-9-9 9 9-9 9"/></svg></div>
+<div style="position:absolute;left:758px;top:1368px"><svg width="52" height="26" viewBox="0 0 52 26" fill="none" stroke="#C2CFCA" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13h44m-9-9 9 9-9 9"/></svg></div>
+<div style="position:absolute;left:1128px;top:1368px"><svg width="52" height="26" viewBox="0 0 52 26" fill="none" stroke="#C2CFCA" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13h44m-9-9 9 9-9 9"/></svg></div>
+<div style="position:absolute;left:1498px;top:1368px"><svg width="52" height="26" viewBox="0 0 52 26" fill="none" stroke="#C2CFCA" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13h44m-9-9 9 9-9 9"/></svg></div>
+<div style="position:absolute;left:1868px;top:1368px"><svg width="52" height="26" viewBox="0 0 52 26" fill="none" stroke="#C2CFCA" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13h44m-9-9 9 9-9 9"/></svg></div>
+
+<!-- B1 Empty dashboard -->
+<div style="position:absolute;left:80px;top:1060px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">B1 · Empty dashboard</div>
+  <div class="scr" style="background:var(--bg);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="padding:8px 20px 0;display:flex;justify-content:space-between;align-items:center"><div><div style="font:700 13px 'Nunito';color:var(--ink2)">Hi Aanya 👋</div><div style="font:900 22px 'Nunito';margin-top:-1px">Good evening</div></div><div style="width:34px;height:34px;border-radius:50%;background:var(--c-rent);display:flex;align-items:center;justify-content:center;font:900 14px 'Nunito';color:#fff">A</div></div>
+    <div style="margin:16px 20px 0;display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:14px;padding:4px;gap:2px;align-self:flex-start">
+      <div style="font:800 12px 'Nunito';padding:7px 14px;border-radius:10px;color:var(--ink3)">Today</div>
+      <div style="font:800 12px 'Nunito';padding:7px 14px;border-radius:10px;background:var(--mint);color:#fff">Week</div>
+      <div style="font:800 12px 'Nunito';padding:7px 14px;border-radius:10px;color:var(--ink3)">Month</div>
+    </div>
+    <div style="margin:18px 20px 0;background:linear-gradient(150deg,#E3F7F1,#fff);border:1px solid var(--mint-tint2);border-radius:22px;padding:20px;text-align:center">
+      <div style="font:800 12px 'Nunito';color:var(--ink3)">SPENT THIS WEEK</div>
+      <div style="font:900 40px 'Nunito';color:var(--ink);margin-top:2px">₹0</div>
+      <div style="font:600 12px 'Nunito';color:var(--ink2);margin-top:2px">Add expenses to see your total grow</div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 34px;text-align:center">
+      <div style="animation:floaty 4s ease-in-out infinite"><svg width="96" height="96" viewBox="0 0 128 128"><circle cx="64" cy="60" r="40" fill="#E3F7F1"/><text x="64" y="55" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="17" fill="#34C6A8">₹</text><circle cx="55" cy="62" r="3.6" fill="#34C6A8"/><circle cx="73" cy="62" r="3.6" fill="#34C6A8"/><path d="M55 70 q9 7 18 0" stroke="#34C6A8" stroke-width="3.4" fill="none" stroke-linecap="round"/></svg></div>
+      <div style="font:800 16px 'Nunito';margin-top:10px">No expenses yet</div>
+      <div style="font:600 13px/1.5 'Nunito';color:var(--ink2);margin-top:5px">Tap the <b style="color:var(--mint-d)">+</b> button to log your<br>first one. It takes 10 seconds!</div>
+    </div>
+    <div style="position:absolute;right:20px;bottom:84px;width:58px;height:58px;border-radius:20px;background:var(--mint);box-shadow:0 10px 22px rgba(52,198,168,.5);display:flex;align-items:center;justify-content:center;animation:floaty 3s ease-in-out infinite"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+    <div style="height:62px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-around;padding:0 8px;background:#fff">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="#34C6A8"><path d="M3 11l9-8 9 8v9a2 2 0 0 1-2 2h-4v-6h-6v6H5a2 2 0 0 1-2-2z"/></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9CABA6" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9CABA6" stroke-width="2"><path d="M3 3v18h18M7 14l4-4 3 3 5-6"/></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9CABA6" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+    </div>
+  </div>
+</div>
+
+<!-- B2 Add expense form -->
+<div style="position:absolute;left:450px;top:1060px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">B2 · Add expense</div>
+  <div class="scr" style="background:var(--bg);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="padding:6px 20px 0;display:flex;justify-content:space-between;align-items:center"><div style="width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2C3A37" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></div><div style="font:900 17px 'Nunito'">New expense</div><div style="width:34px"></div></div>
+    <div style="margin:16px 20px 0;background:linear-gradient(150deg,var(--mint),#1E9E84);border-radius:22px;padding:20px;text-align:center;box-shadow:0 10px 24px rgba(30,158,132,.3)">
+      <div style="font:800 11px 'Nunito';color:rgba(255,255,255,.85);letter-spacing:.5px">AMOUNT</div>
+      <div style="font:900 46px 'Nunito';color:#fff;margin-top:2px;display:flex;align-items:center;justify-content:center;gap:2px">₹420<span style="width:2px;height:38px;background:#fff;border-radius:2px;opacity:.7;margin-left:3px"></span></div>
+    </div>
+    <div style="padding:18px 20px 0;font:800 12px 'Nunito';color:var(--ink2);margin-bottom:9px">CATEGORY</div>
+    <div style="padding:0 20px;display:flex;gap:8px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:6px;background:var(--c-food);color:#fff;font:800 12.5px 'Nunito';padding:8px 13px;border-radius:13px;box-shadow:0 4px 10px rgba(255,158,138,.4)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M4 3v7a3 3 0 0 0 6 0V3M7 3v18M20 3c-2 0-3 2-3 5s1 4 3 4v9"/></svg>Food</div>
+      <div style="display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--line);color:var(--ink2);font:800 12.5px 'Nunito';padding:8px 13px;border-radius:13px"><span style="width:10px;height:10px;border-radius:50%;background:var(--c-groc)"></span>Groceries</div>
+      <div style="display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--line);color:var(--ink2);font:800 12.5px 'Nunito';padding:8px 13px;border-radius:13px"><span style="width:10px;height:10px;border-radius:50%;background:var(--c-trans)"></span>Transport</div>
+      <div style="display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--line);color:var(--ink3);font:800 12.5px 'Nunito';padding:8px 12px;border-radius:13px">+ More</div>
+    </div>
+    <div style="padding:18px 20px 0;display:flex;gap:10px">
+      <div style="flex:1"><div style="font:800 12px 'Nunito';color:var(--ink2);margin-bottom:6px">DATE</div><div style="background:#fff;border:1.5px solid var(--line);border-radius:13px;padding:11px 12px;font:800 13px 'Nunito';display:flex;align-items:center;gap:6px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34C6A8" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Today</div></div>
+      <div style="flex:1"><div style="font:800 12px 'Nunito';color:var(--ink2);margin-bottom:6px">PAY VIA</div><div style="background:#fff;border:1.5px solid var(--line);border-radius:13px;padding:11px 12px;font:800 13px 'Nunito';display:flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:50%;background:var(--c-trans)"></span>UPI</div></div>
+    </div>
+    <div style="padding:14px 20px 0"><div style="background:#fff;border:1.5px solid var(--line);border-radius:13px;padding:11px 14px;font:600 13px 'Nunito';color:var(--ink3)">Add a note (optional)…</div></div>
+    <div style="flex:1"></div>
+    <div style="padding:0 20px 24px"><div style="background:var(--mint);color:#fff;font:800 16px 'Nunito';text-align:center;padding:15px;border-radius:17px;box-shadow:0 8px 20px rgba(52,198,168,.4)">Save expense</div></div>
+  </div>
+</div>
+
+<!-- B3 Number pad -->
+<div style="position:absolute;left:820px;top:1060px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">B3 · Amount keypad</div>
+  <div class="scr" style="background:var(--bg);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="padding:6px 20px 0;display:flex;justify-content:space-between;align-items:center"><div style="width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2C3A37" stroke-width="2.6" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div><div style="font:900 17px 'Nunito'">How much?</div><div style="width:34px"></div></div>
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
+      <div style="font:800 12px 'Nunito';color:var(--ink3)">FOOD &amp; DINING</div>
+      <div style="font:900 58px 'Nunito';color:var(--ink);display:flex;align-items:flex-start"><span style="font-size:34px;margin-top:8px;color:var(--ink2)">₹</span>420</div>
+      <div style="display:flex;gap:8px;margin-top:6px"><div style="font:800 12px 'Nunito';color:var(--mint-d);background:var(--mint-tint);padding:6px 12px;border-radius:10px">+₹50</div><div style="font:800 12px 'Nunito';color:var(--mint-d);background:var(--mint-tint);padding:6px 12px;border-radius:10px">+₹100</div><div style="font:800 12px 'Nunito';color:var(--mint-d);background:var(--mint-tint);padding:6px 12px;border-radius:10px">+₹500</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px 8px;padding:0 24px 8px;font:800 24px 'Nunito';color:var(--ink);text-align:center">
+      <div style="padding:12px 0">1</div><div style="padding:12px 0">2</div><div style="padding:12px 0">3</div>
+      <div style="padding:12px 0">4</div><div style="padding:12px 0">5</div><div style="padding:12px 0">6</div>
+      <div style="padding:12px 0">7</div><div style="padding:12px 0">8</div><div style="padding:12px 0">9</div>
+      <div style="padding:12px 0">.</div><div style="padding:12px 0">0</div><div style="padding:12px 0;display:flex;justify-content:center;align-items:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#73837E" stroke-width="2.2"><path d="M21 4H8l-7 8 7 8h13a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1Z"/><path d="m18 9-6 6M12 9l6 6"/></svg></div>
+    </div>
+    <div style="padding:0 20px 22px"><div style="background:var(--mint);color:#fff;font:800 16px 'Nunito';text-align:center;padding:15px;border-radius:17px;box-shadow:0 8px 20px rgba(52,198,168,.4)">Next</div></div>
+  </div>
+</div>
+
+<!-- B4 Category picker -->
+<div style="position:absolute;left:1190px;top:1060px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">B4 · Category picker</div>
+  <div class="scr" style="background:var(--bg);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="padding:6px 20px 0;display:flex;justify-content:space-between;align-items:center"><div style="width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2C3A37" stroke-width="2.6" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div><div style="font:900 17px 'Nunito'">Pick a category</div><div style="width:34px"></div></div>
+    <div style="padding:14px 20px 0"><div style="background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:11px 14px;font:600 13px 'Nunito';color:var(--ink3);display:flex;gap:8px;align-items:center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9CABA6" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>Search categories</div></div>
+    <div style="flex:1;overflow:hidden;padding:16px 18px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:14px 8px;align-content:start">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:52px;height:52px;border-radius:18px;background:var(--c-food);display:flex;align-items:center;justify-content:center;box-shadow:0 5px 12px rgba(255,158,138,.45);outline:3px solid var(--mint);outline-offset:2px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M4 3v7a3 3 0 0 0 6 0V3M7 3v18M20 3c-2 0-3 2-3 5s1 4 3 4v9"/></svg></div><div style="font:800 11px 'Nunito';color:var(--ink)">Food</div></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:52px;height:52px;border-radius:18px;background:var(--c-groc);display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M5 8h14l-1.5 11a2 2 0 0 1-2 1.7H8.5a2 2 0 0 1-2-1.7Z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></div><div style="font:800 11px 'Nunito';color:var(--ink2)">Groceries</div></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:52px;height:52px;border-radius:18px;background:var(--c-trans);display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M5 11l1.5-5a2 2 0 0 1 2-1.5h7a2 2 0 0 1 2 1.5L21 11v6H3v-6Z"/><circle cx="7.5" cy="17" r="1.6"/><circle cx="16.5" cy="17" r="1.6"/></svg></div><div style="font:800 11px 'Nunito';color:var(--ink2)">Transport</div></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:52px;height:52px;border-radius:18px;background:var(--c-shop);display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M5 8h14l-1 12H6Z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></div><div style="font:800 11px 'Nunito';color:var(--ink2)">Shopping</div></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:52px;height:52px;border-radius:18px;background:var(--c-bills);display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2Z"/><path d="M9 8h6M9 12h6"/></svg></div><div style="font:800 11px 'Nunito';color:var(--ink2)">Bills</div></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:52px;height:52px;border-radius:18px;background:var(--c-rent);display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M4 11 12 4l8 7M6 10v9h12v-9"/></svg></div><div style="font:800 11px 'Nunito';color:var(--ink2)">Rent</div></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:52px;height:52px;border-radius:18px;background:var(--c-health);display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11Z"/></svg></div><div style="font:800 11px 'Nunito';color:var(--ink2)">Health</div></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:52px;height:52px;border-radius:18px;background:var(--c-ent);display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="m10 9 5 3-5 3Z" fill="#fff"/></svg></div><div style="font:800 11px 'Nunito';color:var(--ink2)">Fun</div></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:52px;height:52px;border-radius:18px;background:var(--c-travel);display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M2 16l20-7-7 20-3-8-8-3Z"/></svg></div><div style="font:800 11px 'Nunito';color:var(--ink2)">Travel</div></div>
+    </div>
+    <div style="padding:8px 20px 22px"><div style="background:var(--mint);color:#fff;font:800 16px 'Nunito';text-align:center;padding:15px;border-radius:17px;box-shadow:0 8px 20px rgba(52,198,168,.4)">Confirm</div></div>
+  </div>
+</div>
+
+<!-- B5 Saved success -->
+<div style="position:absolute;left:1560px;top:1060px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">B5 · Saved! (celebration)</div>
+  <div class="scr" style="background:linear-gradient(170deg,#E3F7F1,#FAF6F1 60%);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <!-- confetti -->
+    <div style="position:absolute;top:120px;left:40px;width:9px;height:9px;background:var(--c-food);border-radius:2px;animation:confettiFall 1.4s ease-in infinite"></div>
+    <div style="position:absolute;top:110px;left:120px;width:8px;height:8px;background:var(--c-trans);border-radius:50%;animation:confettiFall 1.7s ease-in infinite"></div>
+    <div style="position:absolute;top:130px;left:200px;width:10px;height:10px;background:var(--c-bills);border-radius:2px;animation:confettiFall 1.5s ease-in infinite"></div>
+    <div style="position:absolute;top:115px;left:250px;width:8px;height:8px;background:var(--c-rent);border-radius:50%;animation:confettiFall 1.9s ease-in infinite"></div>
+    <div style="position:absolute;top:140px;left:80px;width:7px;height:7px;background:var(--c-shop);border-radius:2px;animation:confettiFall 1.6s ease-in infinite"></div>
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 34px;text-align:center">
+      <div style="animation:pop .5s ease-out"><svg width="132" height="132" viewBox="0 0 128 128"><ellipse cx="64" cy="116" rx="32" ry="5" fill="#1E9E84" opacity=".1"/><circle cx="64" cy="58" r="46" fill="#FFD56B"/><circle cx="64" cy="58" r="46" fill="none" stroke="#F2BE45" stroke-width="4"/><text x="64" y="48" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="20" fill="#E0A92E">₹</text><circle cx="53" cy="61" r="4.4" fill="#3A2E1E"/><circle cx="75" cy="61" r="4.4" fill="#3A2E1E"/><path d="M53 70 q11 10 22 0" stroke="#3A2E1E" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="43" cy="67" r="4" fill="#FF9E8A" opacity=".55"/><circle cx="85" cy="67" r="4" fill="#FF9E8A" opacity=".55"/><path d="M30 38l4 4M98 38l-4 4M26 58h5M97 58h5" stroke="#F2BE45" stroke-width="3" stroke-linecap="round"/></svg></div>
+      <div style="font:900 28px 'Nunito';margin-top:22px;letter-spacing:-.5px">Nice one! 🎉</div>
+      <div style="font:600 15px/1.5 'Nunito';color:var(--ink2);margin-top:8px">Your first expense is saved.<br>You're officially tracking!</div>
+      <div style="margin-top:20px;background:#fff;border-radius:18px;padding:14px 18px;box-shadow:0 6px 16px rgba(60,80,75,.1);display:flex;align-items:center;gap:12px;width:100%">
+        <div style="width:42px;height:42px;border-radius:13px;background:var(--c-food);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M4 3v7a3 3 0 0 0 6 0V3M7 3v18M20 3c-2 0-3 2-3 5s1 4 3 4v9"/></svg></div>
+        <div style="flex:1;text-align:left"><div style="font:800 14px 'Nunito'">Lunch at Sasha's</div><div style="font:700 12px 'Nunito';color:var(--ink3)">Food &amp; Dining · Today</div></div>
+        <div style="font:900 18px 'Nunito';color:var(--ink)">₹420</div>
+      </div>
+    </div>
+    <div style="padding:0 28px 28px;display:flex;flex-direction:column;gap:10px"><div style="background:var(--mint);color:#fff;font:800 16px 'Nunito';text-align:center;padding:15px;border-radius:17px;box-shadow:0 8px 20px rgba(52,198,168,.4)">Done</div><div style="font:800 14px 'Nunito';color:var(--mint-d);text-align:center">Add another</div></div>
+  </div>
+</div>
+
+<!-- B6 Dashboard with data -->
+<div style="position:absolute;left:1930px;top:1060px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">B6 · Live dashboard ★</div>
+  <div class="scr" style="background:var(--bg);border-radius:34px;box-shadow:0 16px 40px rgba(30,158,132,.2);overflow:hidden;border:2px solid var(--mint);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="overflow:hidden;flex:1;display:flex;flex-direction:column">
+      <div style="padding:6px 20px 0;display:flex;justify-content:space-between;align-items:center"><div><div style="font:700 12px 'Nunito';color:var(--ink2)">Hi Aanya 👋</div><div style="font:900 20px 'Nunito';margin-top:-1px">This month</div></div><div style="width:34px;height:34px;border-radius:50%;background:var(--c-rent);display:flex;align-items:center;justify-content:center;font:900 14px 'Nunito';color:#fff">A</div></div>
+      <div style="margin:12px 18px 0;display:flex;background:#fff;border:1px solid var(--line);border-radius:13px;padding:3px">
+        <div style="flex:1;text-align:center;font:800 11.5px 'Nunito';padding:6px;border-radius:9px;color:var(--ink3)">Today</div>
+        <div style="flex:1;text-align:center;font:800 11.5px 'Nunito';padding:6px;border-radius:9px;color:var(--ink3)">Week</div>
+        <div style="flex:1;text-align:center;font:800 11.5px 'Nunito';padding:6px;border-radius:9px;background:var(--mint);color:#fff">Month</div>
+      </div>
+      <div style="margin:12px 18px 0;background:linear-gradient(150deg,#1E9E84,#34C6A8);border-radius:20px;padding:16px 18px;box-shadow:0 10px 24px rgba(30,158,132,.32)">
+        <div style="font:800 11px 'Nunito';color:rgba(255,255,255,.85)">SPENT · JUNE</div>
+        <div style="font:900 32px 'Nunito';color:#fff;margin-top:1px">₹12,480</div>
+        <div style="display:flex;justify-content:space-between;font:700 11px 'Nunito';color:rgba(255,255,255,.9);margin-top:8px"><span>₹12,480 of ₹20,000</span><span>₹7,520 left</span></div>
+        <div style="height:9px;background:rgba(255,255,255,.28);border-radius:6px;margin-top:6px;overflow:hidden"><div style="width:62%;height:100%;background:#fff;border-radius:6px"></div></div>
+      </div>
+      <div style="display:flex;gap:10px;padding:12px 18px 0">
+        <div style="flex:1;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;text-align:center">
+          <div style="font:800 10px 'Nunito';color:var(--ink3);margin-bottom:8px">BY CATEGORY</div>
+          <div style="width:78px;height:78px;border-radius:50%;margin:0 auto;background:conic-gradient(var(--c-food) 0 32%,var(--c-groc) 32% 50%,var(--c-trans) 50% 62%,var(--c-shop) 62% 76%,var(--c-bills) 76% 86%,var(--c-other) 86% 100%);display:flex;align-items:center;justify-content:center"><div style="width:48px;height:48px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center"><span style="font:900 13px 'Nunito';color:var(--ink)">6</span><span style="font:700 8px 'Nunito';color:var(--ink3)">cats</span></div></div>
+        </div>
+        <div style="flex:1;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px">
+          <div style="font:800 10px 'Nunito';color:var(--ink3);margin-bottom:10px">THIS WEEK</div>
+          <div style="display:flex;align-items:flex-end;gap:4px;height:56px">
+            <div style="flex:1;height:40%;background:var(--mint-tint2);border-radius:4px"></div>
+            <div style="flex:1;height:65%;background:var(--mint-tint2);border-radius:4px"></div>
+            <div style="flex:1;height:50%;background:var(--mint-tint2);border-radius:4px"></div>
+            <div style="flex:1;height:85%;background:var(--mint);border-radius:4px"></div>
+            <div style="flex:1;height:35%;background:var(--mint-tint2);border-radius:4px"></div>
+            <div style="flex:1;height:70%;background:var(--mint-tint2);border-radius:4px"></div>
+            <div style="flex:1;height:55%;background:var(--mint-tint2);border-radius:4px"></div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px 8px"><span style="font:900 14px 'Nunito'">Recent</span><span style="font:800 11px 'Nunito';color:var(--mint-d)">See all</span></div>
+      <div style="padding:0 18px;display:flex;flex-direction:column;gap:8px">
+        <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:9px 12px;display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;border-radius:11px;background:var(--c-food);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M4 3v7a3 3 0 0 0 6 0V3M7 3v18M20 3c-2 0-3 2-3 5s1 4 3 4v9"/></svg></div><div style="flex:1"><div style="font:800 12.5px 'Nunito'">Lunch at Sasha's</div><div style="font:700 10.5px 'Nunito';color:var(--ink3)">Food · Today</div></div><div style="font:900 14px 'Nunito'">₹420</div></div>
+        <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:9px 12px;display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;border-radius:11px;background:var(--c-trans);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M5 11l1.5-5a2 2 0 0 1 2-1.5h7a2 2 0 0 1 2 1.5L21 11v6H3v-6Z"/><circle cx="7.5" cy="17" r="1.4"/><circle cx="16.5" cy="17" r="1.4"/></svg></div><div style="flex:1"><div style="font:800 12.5px 'Nunito'">Auto to office</div><div style="font:700 10.5px 'Nunito';color:var(--ink3)">Transport · Today</div></div><div style="font:900 14px 'Nunito'">₹80</div></div>
+      </div>
+    </div>
+    <div style="position:absolute;right:18px;bottom:80px;width:56px;height:56px;border-radius:19px;background:var(--mint);box-shadow:0 10px 22px rgba(52,198,168,.5);display:flex;align-items:center;justify-content:center"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+    <div style="height:60px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-around;padding:0 8px;background:#fff">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="#34C6A8"><path d="M3 11l9-8 9 8v9a2 2 0 0 1-2 2h-4v-6h-6v6H5a2 2 0 0 1-2-2z"/></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9CABA6" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9CABA6" stroke-width="2"><path d="M3 3v18h18M7 14l4-4 3 3 5-6"/></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9CABA6" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================= -->
+<!-- ROW C — CORE: list, detail, edit, delete, search, reports -->
+<!-- ============================================================= -->
+<div style="position:absolute;left:80px;top:1810px;font:900 22px 'Nunito';color:var(--ink)">C · Manage expenses<span style="font:700 14px 'Nunito';color:var(--ink3);margin-left:12px">browse · detail · edit · delete · search · report</span></div>
+
+<!-- C1 Expense list grouped by day -->
+<div style="position:absolute;left:80px;top:1860px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">C1 · Expense list</div>
+  <div class="scr" style="background:var(--bg);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="padding:6px 20px 0;display:flex;justify-content:space-between;align-items:center"><div style="font:900 22px 'Nunito'">Expenses</div><div style="display:flex;gap:8px"><div style="width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2C3A37" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg></div><div style="width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2C3A37" stroke-width="2.4"><path d="M4 6h16M7 12h10M10 18h4"/></svg></div></div></div>
+    <div style="flex:1;overflow:hidden;padding:14px 18px 0;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:0 2px"><span style="font:800 12px 'Nunito';color:var(--ink2)">Today, 28 Jun</span><span style="font:800 12px 'Nunito';color:var(--ink3)">₹500</span></div>
+      <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:11px"><div style="width:36px;height:36px;border-radius:12px;background:var(--c-food);display:flex;align-items:center;justify-content:center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M4 3v7a3 3 0 0 0 6 0V3M7 3v18M20 3c-2 0-3 2-3 5s1 4 3 4v9"/></svg></div><div style="flex:1"><div style="font:800 13px 'Nunito'">Lunch at Sasha's</div><div style="font:700 11px 'Nunito';color:var(--ink3)">Food · UPI</div></div><div style="font:900 15px 'Nunito'">₹420</div></div>
+      <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:11px"><div style="width:36px;height:36px;border-radius:12px;background:var(--c-trans);display:flex;align-items:center;justify-content:center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M5 11l1.5-5a2 2 0 0 1 2-1.5h7a2 2 0 0 1 2 1.5L21 11v6H3v-6Z"/><circle cx="7.5" cy="17" r="1.4"/><circle cx="16.5" cy="17" r="1.4"/></svg></div><div style="flex:1"><div style="font:800 13px 'Nunito'">Auto to office</div><div style="font:700 11px 'Nunito';color:var(--ink3)">Transport · Cash</div></div><div style="font:900 15px 'Nunito'">₹80</div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 2px 0"><span style="font:800 12px 'Nunito';color:var(--ink2)">Yesterday, 27 Jun</span><span style="font:800 12px 'Nunito';color:var(--ink3)">₹2,340</span></div>
+      <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:11px"><div style="width:36px;height:36px;border-radius:12px;background:var(--c-groc);display:flex;align-items:center;justify-content:center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M5 8h14l-1.5 11a2 2 0 0 1-2 1.7H8.5a2 2 0 0 1-2-1.7Z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></div><div style="flex:1"><div style="font:800 13px 'Nunito'">BigBasket order</div><div style="font:700 11px 'Nunito';color:var(--ink3)">Groceries · Card</div></div><div style="font:900 15px 'Nunito'">₹1,840</div></div>
+      <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:11px"><div style="width:36px;height:36px;border-radius:12px;background:var(--c-ent);display:flex;align-items:center;justify-content:center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="m10 9 5 3-5 3Z" fill="#fff"/></svg></div><div style="flex:1"><div style="font:800 13px 'Nunito'">Netflix</div><div style="font:700 11px 'Nunito';color:var(--ink3)">Entertainment · Card</div></div><div style="font:900 15px 'Nunito'">₹500</div></div>
+    </div>
+    <div style="position:absolute;right:18px;bottom:80px;width:56px;height:56px;border-radius:19px;background:var(--mint);box-shadow:0 10px 22px rgba(52,198,168,.5);display:flex;align-items:center;justify-content:center"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+    <div style="height:60px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-around;padding:0 8px;background:#fff"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9CABA6" stroke-width="2"><path d="M3 11l9-8 9 8v9a2 2 0 0 1-2 2h-4v-6h-6v6H5a2 2 0 0 1-2-2z"/></svg><svg width="22" height="22" viewBox="0 0 24 24" fill="#34C6A8"><path d="M8 6h13a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2Zm0 5h13a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2Zm0 5h13a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2ZM3 6h.01M3 12h.01M3 18h.01"/></svg><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9CABA6" stroke-width="2"><path d="M3 3v18h18M7 14l4-4 3 3 5-6"/></svg><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9CABA6" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div>
+  </div>
+</div>
+
+<!-- C2 Expense detail -->
+<div style="position:absolute;left:450px;top:1860px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">C2 · Expense detail</div>
+  <div class="scr" style="background:var(--bg);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="padding:6px 20px 0;display:flex;justify-content:space-between;align-items:center"><div style="width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2C3A37" stroke-width="2.6" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div><div style="font:900 16px 'Nunito'">Expense</div><div style="width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="#73837E"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></div></div>
+    <div style="text-align:center;padding:26px 0 4px"><div style="width:72px;height:72px;border-radius:24px;background:var(--c-food);margin:0 auto;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 22px rgba(255,158,138,.45)"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M4 3v7a3 3 0 0 0 6 0V3M7 3v18M20 3c-2 0-3 2-3 5s1 4 3 4v9"/></svg></div><div style="font:900 44px 'Nunito';margin-top:16px">₹420</div><div style="font:800 15px 'Nunito';color:var(--ink2)">Lunch at Sasha's</div></div>
+    <div style="margin:20px 20px 0;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden">
+      <div style="display:flex;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--line)"><span style="font:700 13px 'Nunito';color:var(--ink3)">Category</span><span style="font:800 13px 'Nunito';display:flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:50%;background:var(--c-food)"></span>Food &amp; Dining</span></div>
+      <div style="display:flex;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--line)"><span style="font:700 13px 'Nunito';color:var(--ink3)">Date</span><span style="font:800 13px 'Nunito'">Today, 28 Jun 2026</span></div>
+      <div style="display:flex;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--line)"><span style="font:700 13px 'Nunito';color:var(--ink3)">Payment</span><span style="font:800 13px 'Nunito'">UPI</span></div>
+      <div style="display:flex;justify-content:space-between;padding:13px 16px"><span style="font:700 13px 'Nunito';color:var(--ink3)">Note</span><span style="font:800 13px 'Nunito'">Team lunch 🍜</span></div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="padding:0 20px 24px;display:flex;gap:10px"><div style="flex:1;background:var(--mint);color:#fff;font:800 15px 'Nunito';text-align:center;padding:14px;border-radius:16px;box-shadow:0 8px 18px rgba(52,198,168,.4)">Edit</div><div style="width:54px;background:#FFEDEA;border-radius:16px;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E66A55" stroke-width="2.2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></div></div>
+  </div>
+</div>
+
+<!-- C3 Edit expense -->
+<div style="position:absolute;left:820px;top:1860px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">C3 · Edit expense</div>
+  <div class="scr" style="background:var(--bg);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="padding:6px 20px 0;display:flex;justify-content:space-between;align-items:center"><div style="font:800 14px 'Nunito';color:var(--ink2)">Cancel</div><div style="font:900 16px 'Nunito'">Edit expense</div><div style="font:900 14px 'Nunito';color:var(--mint-d)">Save</div></div>
+    <div style="margin:16px 20px 0;background:#fff;border:1.5px solid var(--mint);border-radius:20px;padding:18px;text-align:center;box-shadow:0 0 0 4px var(--mint-tint)"><div style="font:800 11px 'Nunito';color:var(--ink3)">AMOUNT</div><div style="font:900 42px 'Nunito';margin-top:2px">₹450</div></div>
+    <div style="padding:16px 20px 0;font:800 12px 'Nunito';color:var(--ink2);margin-bottom:8px">CATEGORY</div>
+    <div style="padding:0 20px;display:flex;gap:8px;flex-wrap:wrap"><div style="display:flex;align-items:center;gap:6px;background:var(--c-food);color:#fff;font:800 12px 'Nunito';padding:7px 12px;border-radius:12px">Food</div><div style="display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--line);color:var(--ink2);font:800 12px 'Nunito';padding:7px 12px;border-radius:12px"><span style="width:9px;height:9px;border-radius:50%;background:var(--c-groc)"></span>Groceries</div><div style="display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--line);color:var(--ink2);font:800 12px 'Nunito';padding:7px 12px;border-radius:12px"><span style="width:9px;height:9px;border-radius:50%;background:var(--c-ent)"></span>Fun</div></div>
+    <div style="padding:16px 20px 0"><div style="font:800 12px 'Nunito';color:var(--ink2);margin-bottom:6px">NOTE</div><div style="background:#fff;border:1.5px solid var(--line);border-radius:13px;padding:12px 14px;font:700 13px 'Nunito'">Team lunch 🍜</div></div>
+    <div style="padding:16px 20px 0;display:flex;gap:10px">
+      <div style="flex:1"><div style="font:800 12px 'Nunito';color:var(--ink2);margin-bottom:6px">DATE</div><div style="background:#fff;border:1.5px solid var(--line);border-radius:13px;padding:11px 12px;font:800 13px 'Nunito'">28 Jun</div></div>
+      <div style="flex:1"><div style="font:800 12px 'Nunito';color:var(--ink2);margin-bottom:6px">PAY VIA</div><div style="background:#fff;border:1.5px solid var(--line);border-radius:13px;padding:11px 12px;font:800 13px 'Nunito'">UPI</div></div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="padding:0 20px 24px"><div style="background:var(--mint);color:#fff;font:800 16px 'Nunito';text-align:center;padding:15px;border-radius:17px;box-shadow:0 8px 20px rgba(52,198,168,.4)">Save changes</div></div>
+  </div>
+</div>
+
+<!-- C4 Delete + undo toast -->
+<div style="position:absolute;left:1190px;top:1860px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">C4 · Delete + undo</div>
+  <div class="scr" style="background:var(--bg);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <!-- dimmed list behind -->
+    <div style="padding:6px 20px 0;font:900 22px 'Nunito';opacity:.5">Expenses</div>
+    <div style="padding:14px 18px 0;display:flex;flex-direction:column;gap:8px;opacity:.45;filter:saturate(.7)">
+      <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:11px"><div style="width:36px;height:36px;border-radius:12px;background:var(--c-trans)"></div><div style="flex:1"><div style="font:800 13px 'Nunito'">Auto to office</div><div style="font:700 11px 'Nunito';color:var(--ink3)">Transport</div></div><div style="font:900 15px 'Nunito'">₹80</div></div>
+      <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:11px"><div style="width:36px;height:36px;border-radius:12px;background:var(--c-groc)"></div><div style="flex:1"><div style="font:800 13px 'Nunito'">BigBasket order</div><div style="font:700 11px 'Nunito';color:var(--ink3)">Groceries</div></div><div style="font:900 15px 'Nunito'">₹1,840</div></div>
+    </div>
+    <div style="flex:1"></div>
+    <!-- confirm sheet -->
+    <div style="margin:0 12px;background:#fff;border-radius:24px 24px 0 0;box-shadow:0 -10px 30px rgba(0,0,0,.12);padding:24px 22px 16px;text-align:center">
+      <div style="width:60px;height:60px;border-radius:20px;background:#FFEDEA;margin:0 auto;display:flex;align-items:center;justify-content:center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E66A55" stroke-width="2.2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></div>
+      <div style="font:900 19px 'Nunito';margin-top:14px">Delete this expense?</div>
+      <div style="font:600 13px/1.5 'Nunito';color:var(--ink2);margin-top:5px">"Lunch at Sasha's" · ₹420.<br>You can undo this for a few seconds.</div>
+      <div style="display:flex;gap:10px;margin-top:18px"><div style="flex:1;background:#F2EEE8;color:var(--ink2);font:800 15px 'Nunito';padding:13px;border-radius:15px">Keep</div><div style="flex:1;background:#E66A55;color:#fff;font:800 15px 'Nunito';padding:13px;border-radius:15px;box-shadow:0 8px 18px rgba(230,106,85,.4)">Delete</div></div>
+    </div>
+    <!-- undo toast -->
+    <div style="position:absolute;left:18px;right:18px;bottom:84px;background:#2C3A37;border-radius:16px;padding:13px 16px;display:flex;align-items:center;gap:10px;box-shadow:0 10px 26px rgba(0,0,0,.25)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8FD884" stroke-width="2.6"><path d="m20 6-11 11-5-5"/></svg>
+      <span style="flex:1;font:700 13px 'Nunito';color:#fff">Expense deleted</span>
+      <span style="font:900 13px 'Nunito';color:#5FE0C0">UNDO</span>
+    </div>
+  </div>
+</div>
+
+<!-- C5 Search/filter/sort -->
+<div style="position:absolute;left:1560px;top:1860px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">C5 · Search · filter · sort</div>
+  <div class="scr" style="background:var(--bg);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="padding:6px 20px 0;display:flex;align-items:center;gap:10px"><div style="flex:1;background:#fff;border:1.5px solid var(--mint);border-radius:14px;padding:11px 14px;font:700 13px 'Nunito';display:flex;gap:8px;align-items:center;box-shadow:0 0 0 4px var(--mint-tint)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34C6A8" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>coffee</div><div style="font:800 14px 'Nunito';color:var(--ink2)">Cancel</div></div>
+    <div style="padding:14px 20px 0"><div style="font:800 12px 'Nunito';color:var(--ink2);margin-bottom:8px">FILTERS</div><div style="display:flex;gap:7px;flex-wrap:wrap"><div style="background:var(--mint);color:#fff;font:800 11.5px 'Nunito';padding:6px 11px;border-radius:11px;display:flex;align-items:center;gap:5px">Food <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M6 6l12 12M18 6 6 18"/></svg></div><div style="background:var(--mint);color:#fff;font:800 11.5px 'Nunito';padding:6px 11px;border-radius:11px;display:flex;align-items:center;gap:5px">UPI <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M6 6l12 12M18 6 6 18"/></svg></div><div style="background:#fff;border:1.5px solid var(--line);color:var(--ink2);font:800 11.5px 'Nunito';padding:6px 11px;border-radius:11px">This month</div><div style="background:#fff;border:1.5px solid var(--line);color:var(--ink2);font:800 11.5px 'Nunito';padding:6px 11px;border-radius:11px">+ Amount</div></div></div>
+    <div style="padding:14px 20px 0"><div style="font:800 12px 'Nunito';color:var(--ink2);margin-bottom:8px">AMOUNT RANGE</div><div style="display:flex;justify-content:space-between;font:800 12px 'Nunito';color:var(--ink)"><span>₹0</span><span>₹2,000</span></div><div style="height:5px;background:var(--line);border-radius:4px;margin-top:8px;position:relative"><div style="position:absolute;left:10%;right:35%;height:100%;background:var(--mint);border-radius:4px"></div><div style="position:absolute;left:10%;top:50%;transform:translate(-50%,-50%);width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--mint)"></div><div style="position:absolute;left:65%;top:50%;transform:translate(-50%,-50%);width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--mint)"></div></div></div>
+    <div style="padding:16px 20px 0;display:flex;justify-content:space-between;align-items:center"><span style="font:800 12px 'Nunito';color:var(--ink2)">SORT</span><span style="font:800 12px 'Nunito';color:var(--mint-d);display:flex;align-items:center;gap:5px">Amount: high → low <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1E9E84" stroke-width="2.6"><path d="m6 9 6 6 6-6"/></svg></span></div>
+    <div style="margin:14px 20px 0;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:11px"><div style="width:36px;height:36px;border-radius:12px;background:var(--c-food);display:flex;align-items:center;justify-content:center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M4 3v7a3 3 0 0 0 6 0V3M7 3v18M20 3c-2 0-3 2-3 5s1 4 3 4v9"/></svg></div><div style="flex:1"><div style="font:800 13px 'Nunito'">Blue Tokai coffee</div><div style="font:700 11px 'Nunito';color:var(--ink3)">Food · UPI · 24 Jun</div></div><div style="font:900 15px 'Nunito'">₹380</div></div>
+    <div style="flex:1"></div>
+    <div style="padding:0 20px 24px"><div style="background:var(--mint);color:#fff;font:800 16px 'Nunito';text-align:center;padding:15px;border-radius:17px;box-shadow:0 8px 20px rgba(52,198,168,.4)">Show 1 result</div></div>
+  </div>
+</div>
+
+<!-- C6 Reports & insights -->
+<div style="position:absolute;left:1930px;top:1860px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">C6 · Reports &amp; insights</div>
+  <div class="scr" style="background:var(--bg);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="overflow:hidden;flex:1;display:flex;flex-direction:column">
+      <div style="padding:6px 20px 0;display:flex;justify-content:space-between;align-items:center"><div style="font:900 22px 'Nunito'">Insights</div><div style="background:#fff;border:1px solid var(--line);border-radius:11px;padding:7px 11px;font:800 12px 'Nunito';display:flex;align-items:center;gap:5px">June ▾</div></div>
+      <div style="margin:14px 18px 0;background:linear-gradient(150deg,#1E9E84,#34C6A8);border-radius:20px;padding:16px 18px;box-shadow:0 10px 24px rgba(30,158,132,.3)"><div style="font:800 11px 'Nunito';color:rgba(255,255,255,.85)">TOTAL SPENT IN JUNE</div><div style="font:900 30px 'Nunito';color:#fff">₹12,480</div><div style="display:flex;align-items:center;gap:6px;margin-top:4px"><span style="background:rgba(255,255,255,.25);color:#fff;font:800 10.5px 'Nunito';padding:3px 8px;border-radius:8px;display:flex;align-items:center;gap:3px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="m6 15 6-6 6 6"/></svg>8%</span><span style="font:700 11px 'Nunito';color:rgba(255,255,255,.9)">vs ₹11,560 last month</span></div></div>
+      <div style="display:flex;gap:10px;padding:12px 18px 0">
+        <div style="flex:1;background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px"><div style="font:700 10px 'Nunito';color:var(--ink3)">BIGGEST EXPENSE</div><div style="font:900 17px 'Nunito';margin-top:3px">₹8,500</div><div style="font:700 10.5px 'Nunito';color:var(--ink3)">Rent · 1 Jun</div></div>
+        <div style="flex:1;background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px"><div style="font:700 10px 'Nunito';color:var(--ink3)">DAILY AVERAGE</div><div style="font:900 17px 'Nunito';margin-top:3px">₹416</div><div style="font:700 10.5px 'Nunito';color:var(--ink3)">over 30 days</div></div>
+      </div>
+      <div style="padding:14px 18px 6px;font:900 13px 'Nunito'">Category breakdown</div>
+      <div style="padding:0 18px;display:flex;flex-direction:column;gap:9px">
+        <div><div style="display:flex;justify-content:space-between;font:800 11.5px 'Nunito';margin-bottom:4px"><span>Rent</span><span>₹8,500</span></div><div style="height:7px;background:var(--line);border-radius:5px"><div style="width:68%;height:100%;background:var(--c-rent);border-radius:5px"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;font:800 11.5px 'Nunito';margin-bottom:4px"><span>Food &amp; Dining</span><span>₹2,140</span></div><div style="height:7px;background:var(--line);border-radius:5px"><div style="width:32%;height:100%;background:var(--c-food);border-radius:5px"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;font:800 11.5px 'Nunito';margin-bottom:4px"><span>Groceries</span><span>₹1,840</span></div><div style="height:7px;background:var(--line);border-radius:5px"><div style="width:24%;height:100%;background:var(--c-groc);border-radius:5px"></div></div></div>
+      </div>
+    </div>
+    <div style="padding:12px 18px 22px"><div style="background:#fff;border:1.5px solid var(--mint);color:var(--mint-d);font:800 15px 'Nunito';text-align:center;padding:13px;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1E9E84" stroke-width="2.2"><path d="M12 3v12M8 11l4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Export CSV</div></div>
+  </div>
+</div>
+
+<!-- ============================================================= -->
+<!-- ROW D — CATEGORIES, BUDGETS, SETTINGS, ALERTS, EMPTY -->
+<!-- ============================================================= -->
+<div style="position:absolute;left:80px;top:2610px;font:900 22px 'Nunito';color:var(--ink)">D · Budgets, categories &amp; settings<span style="font:700 14px 'Nunito';color:var(--ink3);margin-left:12px">organise · plan · alert · configure</span></div>
+
+<!-- D1 Categories management -->
+<div style="position:absolute;left:80px;top:2660px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">D1 · Categories</div>
+  <div class="scr" style="background:var(--bg);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="padding:6px 20px 0;display:flex;justify-content:space-between;align-items:center"><div style="width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2C3A37" stroke-width="2.6" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></div><div style="font:900 16px 'Nunito'">Categories</div><div style="width:34px"></div></div>
+    <div style="flex:1;overflow:hidden;padding:16px 18px 0;display:flex;flex-direction:column;gap:8px">
+      <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:11px"><div style="width:34px;height:34px;border-radius:11px;background:var(--c-food);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M4 3v7a3 3 0 0 0 6 0V3M7 3v18M20 3c-2 0-3 2-3 5s1 4 3 4v9"/></svg></div><div style="flex:1"><div style="font:800 13px 'Nunito'">Food &amp; Dining</div><div style="font:700 10.5px 'Nunito';color:var(--ink3)">42 expenses</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C2CFCA" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></div>
+      <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:11px"><div style="width:34px;height:34px;border-radius:11px;background:var(--c-groc);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M5 8h14l-1.5 11a2 2 0 0 1-2 1.7H8.5a2 2 0 0 1-2-1.7Z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></div><div style="flex:1"><div style="font:800 13px 'Nunito'">Groceries</div><div style="font:700 10.5px 'Nunito';color:var(--ink3)">18 expenses</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C2CFCA" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></div>
+      <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:11px"><div style="width:34px;height:34px;border-radius:11px;background:var(--c-rent);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M4 11 12 4l8 7M6 10v9h12v-9"/></svg></div><div style="flex:1"><div style="font:800 13px 'Nunito'">Rent</div><div style="font:700 10.5px 'Nunito';color:var(--ink3)">1 expense</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C2CFCA" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></div>
+      <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:11px"><div style="width:34px;height:34px;border-radius:11px;background:var(--c-travel);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M2 16l20-7-7 20-3-8-8-3Z"/></svg></div><div style="flex:1"><div style="font:800 13px 'Nunito'">Travel</div><div style="font:700 10.5px 'Nunito';color:var(--ink3)">Custom · 6 expenses</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C2CFCA" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></div>
+    </div>
+    <div style="padding:12px 20px 24px"><div style="background:var(--mint);color:#fff;font:800 15px 'Nunito';text-align:center;padding:14px;border-radius:16px;box-shadow:0 8px 18px rgba(52,198,168,.4);display:flex;align-items:center;justify-content:center;gap:8px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>New category</div></div>
+  </div>
+</div>
+
+<!-- D2 Budgets overview -->
+<div style="position:absolute;left:450px;top:2660px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">D2 · Budgets</div>
+  <div class="scr" style="background:var(--bg);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="padding:6px 20px 0;font:900 22px 'Nunito'">Budgets</div>
+    <div style="margin:14px 18px 0;background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:800 13px 'Nunito';color:var(--ink2)">Overall · June</span><span style="font:900 14px 'Nunito';color:var(--mint-d)">62%</span></div><div style="font:900 24px 'Nunito';margin-top:6px">₹12,480 <span style="font:700 13px 'Nunito';color:var(--ink3)">/ ₹20,000</span></div><div style="height:11px;background:var(--mint-tint2);border-radius:7px;margin-top:8px;overflow:hidden"><div style="width:62%;height:100%;background:linear-gradient(90deg,#34C6A8,#1E9E84);border-radius:7px"></div></div><div style="font:700 11.5px 'Nunito';color:var(--ink3);margin-top:6px">₹7,520 left · on track 🎯</div></div>
+    <div style="padding:16px 20px 8px;font:900 13px 'Nunito'">Per category</div>
+    <div style="flex:1;overflow:hidden;padding:0 18px;display:flex;flex-direction:column;gap:10px">
+      <div style="background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px"><span style="font:800 12.5px 'Nunito';display:flex;gap:7px;align-items:center"><span style="width:10px;height:10px;border-radius:50%;background:var(--c-food)"></span>Food &amp; Dining</span><span style="font:800 11.5px 'Nunito';color:var(--ink3)">₹2,140 / ₹3,000</span></div><div style="height:8px;background:var(--line);border-radius:5px"><div style="width:71%;height:100%;background:var(--c-food);border-radius:5px"></div></div></div>
+      <div style="background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px"><span style="font:800 12.5px 'Nunito';display:flex;gap:7px;align-items:center"><span style="width:10px;height:10px;border-radius:50%;background:var(--c-shop)"></span>Shopping</span><span style="font:800 11.5px 'Nunito';color:#E0952A">₹2,650 / ₹3,000</span></div><div style="height:8px;background:var(--line);border-radius:5px"><div style="width:88%;height:100%;background:#FFC36B;border-radius:5px"></div></div><div style="font:800 10.5px 'Nunito';color:#E0952A;margin-top:5px">⚠ Approaching limit · 88%</div></div>
+      <div style="background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px"><span style="font:800 12.5px 'Nunito';display:flex;gap:7px;align-items:center"><span style="width:10px;height:10px;border-radius:50%;background:var(--c-trans)"></span>Transport</span><span style="font:800 11.5px 'Nunito';color:var(--ink3)">₹640 / ₹1,500</span></div><div style="height:8px;background:var(--line);border-radius:5px"><div style="width:43%;height:100%;background:var(--c-trans);border-radius:5px"></div></div></div>
+    </div>
+    <div style="padding:12px 20px 24px"><div style="background:var(--mint);color:#fff;font:800 15px 'Nunito';text-align:center;padding:14px;border-radius:16px;box-shadow:0 8px 18px rgba(52,198,168,.4)">Edit budgets</div></div>
+  </div>
+</div>
+
+<!-- D3 Budget alert (exceeded) -->
+<div style="position:absolute;left:820px;top:2660px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">D3 · Budget alert states</div>
+  <div class="scr" style="background:var(--bg);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 22px;gap:16px">
+      <!-- 80% warning card -->
+      <div style="background:linear-gradient(150deg,#FFF4DC,#FFEAC0);border:1px solid #FFD98A;border-radius:22px;padding:18px;text-align:center">
+        <div style="width:56px;height:56px;border-radius:18px;background:#fff;margin:0 auto;display:flex;align-items:center;justify-content:center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E0A92E" stroke-width="2.2"><path d="M12 9v4M12 17h0"/><path d="M10.3 3.9 2 18a2 2 0 0 0 1.7 3h16.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg></div>
+        <div style="font:900 17px 'Nunito';margin-top:12px;color:#8A6914">Heads up — 80% used</div>
+        <div style="font:600 12.5px/1.5 'Nunito';color:#9A7A2C;margin-top:5px">You've spent ₹2,650 of your ₹3,000 Shopping budget this month.</div>
+        <div style="height:9px;background:#fff;border-radius:6px;margin-top:12px;overflow:hidden"><div style="width:88%;height:100%;background:#E0A92E;border-radius:6px"></div></div>
+      </div>
+      <!-- exceeded card -->
+      <div style="background:linear-gradient(150deg,#FFEDEA,#FFDDD6);border:1px solid #FFC0B5;border-radius:22px;padding:18px;text-align:center">
+        <div style="width:56px;height:56px;border-radius:18px;background:#fff;margin:0 auto;display:flex;align-items:center;justify-content:center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E66A55" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16h0" stroke-linecap="round"/></svg></div>
+        <div style="font:900 17px 'Nunito';margin-top:12px;color:#C8503C">Budget exceeded</div>
+        <div style="font:600 12.5px/1.5 'Nunito';color:#C8604C;margin-top:5px">Food &amp; Dining is ₹420 over its ₹3,000 limit. Time to slow down 🍜</div>
+        <div style="height:9px;background:#fff;border-radius:6px;margin-top:12px;overflow:hidden"><div style="width:100%;height:100%;background:#E66A55;border-radius:6px"></div></div>
+        <div style="display:flex;gap:8px;margin-top:14px"><div style="flex:1;background:#fff;color:#C8503C;font:800 12.5px 'Nunito';padding:10px;border-radius:13px">Adjust budget</div><div style="flex:1;background:#E66A55;color:#fff;font:800 12.5px 'Nunito';padding:10px;border-radius:13px">View expenses</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- D4 Profile & settings -->
+<div style="position:absolute;left:1190px;top:2660px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">D4 · Profile &amp; settings</div>
+  <div class="scr" style="background:var(--bg);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="overflow:hidden;flex:1;display:flex;flex-direction:column">
+      <div style="padding:6px 20px 0;font:900 22px 'Nunito'">Settings</div>
+      <div style="margin:14px 18px 0;background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;align-items:center;gap:13px"><div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(150deg,#B0A4F5,#8C7DF0);display:flex;align-items:center;justify-content:center;font:900 20px 'Nunito';color:#fff;position:relative">A<div style="position:absolute;right:-2px;bottom:-2px;width:20px;height:20px;border-radius:50%;background:var(--mint);border:2px solid #fff;display:flex;align-items:center;justify-content:center"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M12 20h9M16.5 3.5a2 2 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div></div><div style="flex:1"><div style="font:900 15px 'Nunito'">Aanya Sharma</div><div style="font:700 12px 'Nunito';color:var(--ink3)">aanya@email.com</div></div></div>
+      <div style="margin:14px 18px 0;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden">
+        <div style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-bottom:1px solid var(--line)"><div style="width:30px;height:30px;border-radius:9px;background:var(--mint-tint);display:flex;align-items:center;justify-content:center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1E9E84" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><span style="flex:1;font:800 13px 'Nunito'">Currency</span><span style="font:800 12px 'Nunito';color:var(--ink3)">₹ INR ›</span></div>
+        <div style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-bottom:1px solid var(--line)"><div style="width:30px;height:30px;border-radius:9px;background:var(--mint-tint);display:flex;align-items:center;justify-content:center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1E9E84" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></div><span style="flex:1;font:800 13px 'Nunito'">Week starts on</span><span style="font:800 12px 'Nunito';color:var(--ink3)">Monday ›</span></div>
+        <div style="display:flex;align-items:center;gap:11px;padding:12px 14px"><div style="width:30px;height:30px;border-radius:9px;background:var(--mint-tint);display:flex;align-items:center;justify-content:center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1E9E84" stroke-width="2.2"><path d="M12 3a9 9 0 1 0 9 9c-5 0-9-4-9-9Z"/></svg></div><span style="flex:1;font:800 13px 'Nunito'">Dark mode</span><div style="width:42px;height:24px;border-radius:14px;background:var(--line);position:relative"><div style="position:absolute;left:2px;top:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2)"></div></div></div>
+      </div>
+      <div style="margin:14px 18px 0;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden">
+        <div style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-bottom:1px solid var(--line)"><div style="width:30px;height:30px;border-radius:9px;background:#FFF0DC;display:flex;align-items:center;justify-content:center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E0A92E" stroke-width="2.2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg></div><span style="flex:1;font:800 13px 'Nunito'">Budget alerts</span><div style="width:42px;height:24px;border-radius:14px;background:var(--mint);position:relative"><div style="position:absolute;right:2px;top:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2)"></div></div></div>
+        <div style="display:flex;align-items:center;gap:11px;padding:12px 14px"><div style="width:30px;height:30px;border-radius:9px;background:var(--mint-tint);display:flex;align-items:center;justify-content:center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1E9E84" stroke-width="2.2"><path d="M12 3v12M8 11l4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></div><span style="flex:1;font:800 13px 'Nunito'">Export data</span><span style="font:800 12px 'Nunito';color:var(--ink3)">CSV ›</span></div>
+      </div>
+      <div style="margin:14px 18px 0;font:800 13px 'Nunito';color:#E66A55;padding:4px">Delete account</div>
+    </div>
+  </div>
+</div>
+
+<!-- D5 Notifications -->
+<div style="position:absolute;left:1560px;top:2660px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">D5 · Notifications</div>
+  <div class="scr" style="background:var(--bg);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="padding:6px 20px 0;font:900 22px 'Nunito'">Notifications</div>
+    <div style="flex:1;overflow:hidden;padding:14px 18px 0;display:flex;flex-direction:column;gap:9px">
+      <div style="background:#FFEDEA;border:1px solid #FFD2C9;border-radius:15px;padding:12px;display:flex;gap:11px;align-items:flex-start"><div style="width:36px;height:36px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E66A55" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16h0" stroke-linecap="round"/></svg></div><div style="flex:1"><div style="font:800 13px 'Nunito';color:#C8503C">Budget exceeded</div><div style="font:600 11.5px/1.4 'Nunito';color:#C8604C;margin-top:2px">Food &amp; Dining is ₹420 over budget.</div><div style="font:700 10px 'Nunito';color:#D89A8E;margin-top:4px">2h ago</div></div><div style="width:8px;height:8px;border-radius:50%;background:#E66A55;margin-top:4px"></div></div>
+      <div style="background:#FFF4DC;border:1px solid #FFE0A8;border-radius:15px;padding:12px;display:flex;gap:11px;align-items:flex-start"><div style="width:36px;height:36px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E0A92E" stroke-width="2.2"><path d="M12 9v4M12 17h0"/><path d="M10.3 3.9 2 18a2 2 0 0 0 1.7 3h16.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg></div><div style="flex:1"><div style="font:800 13px 'Nunito';color:#8A6914">80% of Shopping budget used</div><div style="font:600 11.5px/1.4 'Nunito';color:#9A7A2C;margin-top:2px">₹2,650 of ₹3,000 spent.</div><div style="font:700 10px 'Nunito';color:#B89A5C;margin-top:4px">Yesterday</div></div></div>
+      <div style="background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px;display:flex;gap:11px;align-items:flex-start"><div style="width:36px;height:36px;border-radius:12px;background:var(--mint-tint);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E9E84" stroke-width="2.2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg></div><div style="flex:1"><div style="font:800 13px 'Nunito'">Don't forget to log today!</div><div style="font:600 11.5px/1.4 'Nunito';color:var(--ink2);margin-top:2px">Keep your streak going — add today's expenses.</div><div style="font:700 10px 'Nunito';color:var(--ink3);margin-top:4px">Yesterday · 9 PM</div></div></div>
+      <div style="background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px;display:flex;gap:11px;align-items:flex-start"><div style="width:36px;height:36px;border-radius:12px;background:var(--mint-tint);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E9E84" stroke-width="2.4"><path d="m20 6-11 11-5-5"/></svg></div><div style="flex:1"><div style="font:800 13px 'Nunito'">Goal hit! 🎉</div><div style="font:600 11.5px/1.4 'Nunito';color:var(--ink2);margin-top:2px">You stayed under your Transport budget in May.</div><div style="font:700 10px 'Nunito';color:var(--ink3);margin-top:4px">2 days ago</div></div></div>
+    </div>
+    <div style="height:14px"></div>
+  </div>
+</div>
+
+<!-- D6 Empty states -->
+<div style="position:absolute;left:1930px;top:2660px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">D6 · Empty states</div>
+  <div class="scr" style="background:var(--bg);border-radius:34px;box-shadow:0 12px 34px rgba(60,80,75,.16);overflow:hidden;border:1px solid var(--line);height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:var(--ink)"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <!-- no budgets -->
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 30px;border-bottom:1px dashed var(--line)">
+      <div style="width:80px;height:80px;border-radius:26px;background:var(--mint-tint);display:flex;align-items:center;justify-content:center;animation:floaty 4s ease-in-out infinite"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1E9E84" stroke-width="1.8"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4"/><circle cx="12" cy="12" r="4"/></svg></div>
+      <div style="font:900 17px 'Nunito';margin-top:14px">No budgets yet</div>
+      <div style="font:600 12.5px/1.5 'Nunito';color:var(--ink2);margin-top:5px">Set a monthly budget and we'll<br>keep you on track.</div>
+      <div style="margin-top:14px;background:var(--mint);color:#fff;font:800 13px 'Nunito';padding:11px 22px;border-radius:14px;box-shadow:0 6px 16px rgba(52,198,168,.4)">Set a budget</div>
+    </div>
+    <!-- no results -->
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 30px">
+      <div style="width:80px;height:80px;border-radius:26px;background:#F2EEE8;display:flex;align-items:center;justify-content:center"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9CABA6" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4M8 11h6"/></svg></div>
+      <div style="font:900 17px 'Nunito';margin-top:14px">No results found</div>
+      <div style="font:600 12.5px/1.5 'Nunito';color:var(--ink2);margin-top:5px">Try a different search or<br>clear your filters.</div>
+      <div style="margin-top:14px;background:#fff;border:1.5px solid var(--line);color:var(--ink2);font:800 13px 'Nunito';padding:11px 22px;border-radius:14px">Clear filters</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================= -->
+<!-- ROW E — DARK MODE HERO SCREENS -->
+<!-- ============================================================= -->
+<div style="position:absolute;left:80px;top:3410px;font:900 22px 'Nunito';color:var(--ink)">E · Dark mode<span style="font:700 14px 'Nunito';color:var(--ink3);margin-left:12px">same cozy feel, after dark 🌙</span></div>
+
+<!-- E1 Welcome dark -->
+<div style="position:absolute;left:80px;top:3460px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">E1 · Welcome (dark)</div>
+  <div style="font-family:'Nunito',sans-serif;color:#EAF1EE;background:linear-gradient(170deg,#14302A,#16201D 55%);border-radius:34px;box-shadow:0 12px 34px rgba(0,0,0,.4);overflow:hidden;border:1px solid #2E3B37;height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:#EAF1EE"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 30px;text-align:center">
+      <div style="animation:floaty 4s ease-in-out infinite"><svg width="128" height="128" viewBox="0 0 128 128"><circle cx="64" cy="60" r="46" fill="#FFD56B"/><circle cx="64" cy="60" r="46" fill="none" stroke="#F2BE45" stroke-width="4"/><text x="64" y="50" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="20" fill="#E0A92E">₹</text><circle cx="53" cy="63" r="4.4" fill="#3A2E1E"/><circle cx="75" cy="63" r="4.4" fill="#3A2E1E"/><path d="M54 73 q10 9 20 0" stroke="#3A2E1E" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="44" cy="69" r="4" fill="#FF9E8A" opacity=".55"/><circle cx="84" cy="69" r="4" fill="#FF9E8A" opacity=".55"/></svg></div>
+      <div style="font:900 30px 'Nunito';margin-top:26px;letter-spacing:-.5px">Money, made<br>friendly.</div>
+      <div style="font:600 15px/1.5 'Nunito';color:#9FB0AB;margin-top:12px">Track every rupee in seconds.<br>Meet Penny — your spending buddy.</div>
+    </div>
+    <div style="padding:0 24px 30px;display:flex;flex-direction:column;gap:11px">
+      <div style="background:var(--mint);color:#0F1A17;font:800 16px 'Nunito';text-align:center;padding:16px;border-radius:18px;box-shadow:0 8px 22px rgba(52,198,168,.4)">Get started</div>
+      <div style="font:700 14px 'Nunito';color:#9FB0AB;text-align:center">I already have an account</div>
+    </div>
+  </div>
+</div>
+
+<!-- E2 Dashboard dark -->
+<div style="position:absolute;left:450px;top:3460px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">E2 · Dashboard (dark) ★</div>
+  <div style="font-family:'Nunito',sans-serif;color:#EAF1EE;background:#16201D;border-radius:34px;box-shadow:0 16px 40px rgba(0,0,0,.45);overflow:hidden;border:1px solid #2E3B37;height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:#EAF1EE"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="overflow:hidden;flex:1;display:flex;flex-direction:column">
+      <div style="padding:6px 20px 0;display:flex;justify-content:space-between;align-items:center"><div><div style="font:700 12px 'Nunito';color:#9FB0AB">Hi Aanya 👋</div><div style="font:900 20px 'Nunito';margin-top:-1px">This month</div></div><div style="width:34px;height:34px;border-radius:50%;background:var(--c-rent);display:flex;align-items:center;justify-content:center;font:900 14px 'Nunito';color:#fff">A</div></div>
+      <div style="margin:12px 18px 0;display:flex;background:#1F2C28;border:1px solid #2E3B37;border-radius:13px;padding:3px">
+        <div style="flex:1;text-align:center;font:800 11.5px 'Nunito';padding:6px;border-radius:9px;color:#7E8F8A">Today</div>
+        <div style="flex:1;text-align:center;font:800 11.5px 'Nunito';padding:6px;border-radius:9px;color:#7E8F8A">Week</div>
+        <div style="flex:1;text-align:center;font:800 11.5px 'Nunito';padding:6px;border-radius:9px;background:var(--mint);color:#0F1A17">Month</div>
+      </div>
+      <div style="margin:12px 18px 0;background:linear-gradient(150deg,#1E9E84,#2BC0A2);border-radius:20px;padding:16px 18px;box-shadow:0 10px 24px rgba(30,158,132,.4)">
+        <div style="font:800 11px 'Nunito';color:rgba(255,255,255,.85)">SPENT · JUNE</div>
+        <div style="font:900 32px 'Nunito';color:#fff;margin-top:1px">₹12,480</div>
+        <div style="display:flex;justify-content:space-between;font:700 11px 'Nunito';color:rgba(255,255,255,.9);margin-top:8px"><span>₹12,480 of ₹20,000</span><span>₹7,520 left</span></div>
+        <div style="height:9px;background:rgba(255,255,255,.28);border-radius:6px;margin-top:6px;overflow:hidden"><div style="width:62%;height:100%;background:#fff;border-radius:6px"></div></div>
+      </div>
+      <div style="display:flex;gap:10px;padding:12px 18px 0">
+        <div style="flex:1;background:#1F2C28;border:1px solid #2E3B37;border-radius:16px;padding:12px;text-align:center">
+          <div style="font:800 10px 'Nunito';color:#7E8F8A;margin-bottom:8px">BY CATEGORY</div>
+          <div style="width:78px;height:78px;border-radius:50%;margin:0 auto;background:conic-gradient(var(--c-food) 0 32%,var(--c-groc) 32% 50%,var(--c-trans) 50% 62%,var(--c-shop) 62% 76%,var(--c-bills) 76% 86%,#3A4A45 86% 100%);display:flex;align-items:center;justify-content:center"><div style="width:48px;height:48px;border-radius:50%;background:#16201D;display:flex;flex-direction:column;align-items:center;justify-content:center"><span style="font:900 13px 'Nunito';color:#EAF1EE">6</span><span style="font:700 8px 'Nunito';color:#7E8F8A">cats</span></div></div>
+        </div>
+        <div style="flex:1;background:#1F2C28;border:1px solid #2E3B37;border-radius:16px;padding:12px">
+          <div style="font:800 10px 'Nunito';color:#7E8F8A;margin-bottom:10px">THIS WEEK</div>
+          <div style="display:flex;align-items:flex-end;gap:4px;height:56px">
+            <div style="flex:1;height:40%;background:#2C463F;border-radius:4px"></div><div style="flex:1;height:65%;background:#2C463F;border-radius:4px"></div><div style="flex:1;height:50%;background:#2C463F;border-radius:4px"></div><div style="flex:1;height:85%;background:var(--mint);border-radius:4px"></div><div style="flex:1;height:35%;background:#2C463F;border-radius:4px"></div><div style="flex:1;height:70%;background:#2C463F;border-radius:4px"></div><div style="flex:1;height:55%;background:#2C463F;border-radius:4px"></div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px 8px"><span style="font:900 14px 'Nunito'">Recent</span><span style="font:800 11px 'Nunito';color:#5FE0C0">See all</span></div>
+      <div style="padding:0 18px;display:flex;flex-direction:column;gap:8px">
+        <div style="background:#1F2C28;border:1px solid #2E3B37;border-radius:14px;padding:9px 12px;display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;border-radius:11px;background:var(--c-food);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M4 3v7a3 3 0 0 0 6 0V3M7 3v18M20 3c-2 0-3 2-3 5s1 4 3 4v9"/></svg></div><div style="flex:1"><div style="font:800 12.5px 'Nunito'">Lunch at Sasha's</div><div style="font:700 10.5px 'Nunito';color:#7E8F8A">Food · Today</div></div><div style="font:900 14px 'Nunito'">₹420</div></div>
+        <div style="background:#1F2C28;border:1px solid #2E3B37;border-radius:14px;padding:9px 12px;display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;border-radius:11px;background:var(--c-trans);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M5 11l1.5-5a2 2 0 0 1 2-1.5h7a2 2 0 0 1 2 1.5L21 11v6H3v-6Z"/><circle cx="7.5" cy="17" r="1.4"/><circle cx="16.5" cy="17" r="1.4"/></svg></div><div style="flex:1"><div style="font:800 12.5px 'Nunito'">Auto to office</div><div style="font:700 10.5px 'Nunito';color:#7E8F8A">Transport · Today</div></div><div style="font:900 14px 'Nunito'">₹80</div></div>
+      </div>
+    </div>
+    <div style="position:absolute;right:18px;bottom:80px;width:56px;height:56px;border-radius:19px;background:var(--mint);box-shadow:0 10px 24px rgba(52,198,168,.55);display:flex;align-items:center;justify-content:center"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#0F1A17" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+    <div style="height:60px;border-top:1px solid #2E3B37;display:flex;align-items:center;justify-content:space-around;padding:0 8px;background:#131C19">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="#34C6A8"><path d="M3 11l9-8 9 8v9a2 2 0 0 1-2 2h-4v-6h-6v6H5a2 2 0 0 1-2-2z"/></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B7C77" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B7C77" stroke-width="2"><path d="M3 3v18h18M7 14l4-4 3 3 5-6"/></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B7C77" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+    </div>
+  </div>
+</div>
+
+<!-- E3 Add expense dark -->
+<div style="position:absolute;left:820px;top:3460px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">E3 · Add expense (dark)</div>
+  <div style="font-family:'Nunito',sans-serif;color:#EAF1EE;background:#16201D;border-radius:34px;box-shadow:0 12px 34px rgba(0,0,0,.45);overflow:hidden;border:1px solid #2E3B37;height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:#EAF1EE"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="padding:6px 20px 0;display:flex;justify-content:space-between;align-items:center"><div style="width:34px;height:34px;border-radius:11px;background:#1F2C28;border:1px solid #2E3B37;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EAF1EE" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></div><div style="font:900 17px 'Nunito'">New expense</div><div style="width:34px"></div></div>
+    <div style="margin:16px 20px 0;background:linear-gradient(150deg,#1E9E84,#2BC0A2);border-radius:22px;padding:20px;text-align:center;box-shadow:0 10px 24px rgba(30,158,132,.4)"><div style="font:800 11px 'Nunito';color:rgba(255,255,255,.85)">AMOUNT</div><div style="font:900 46px 'Nunito';color:#fff;margin-top:2px">₹420</div></div>
+    <div style="padding:18px 20px 0;font:800 12px 'Nunito';color:#9FB0AB;margin-bottom:9px">CATEGORY</div>
+    <div style="padding:0 20px;display:flex;gap:8px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:6px;background:var(--c-food);color:#fff;font:800 12.5px 'Nunito';padding:8px 13px;border-radius:13px">Food</div>
+      <div style="display:flex;align-items:center;gap:6px;background:#1F2C28;border:1.5px solid #2E3B37;color:#9FB0AB;font:800 12.5px 'Nunito';padding:8px 13px;border-radius:13px"><span style="width:10px;height:10px;border-radius:50%;background:var(--c-groc)"></span>Groceries</div>
+      <div style="display:flex;align-items:center;gap:6px;background:#1F2C28;border:1.5px solid #2E3B37;color:#9FB0AB;font:800 12.5px 'Nunito';padding:8px 13px;border-radius:13px"><span style="width:10px;height:10px;border-radius:50%;background:var(--c-trans)"></span>Transport</div>
+    </div>
+    <div style="padding:18px 20px 0;display:flex;gap:10px">
+      <div style="flex:1"><div style="font:800 12px 'Nunito';color:#9FB0AB;margin-bottom:6px">DATE</div><div style="background:#1F2C28;border:1.5px solid #2E3B37;border-radius:13px;padding:11px 12px;font:800 13px 'Nunito';display:flex;align-items:center;gap:6px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34C6A8" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Today</div></div>
+      <div style="flex:1"><div style="font:800 12px 'Nunito';color:#9FB0AB;margin-bottom:6px">PAY VIA</div><div style="background:#1F2C28;border:1.5px solid #2E3B37;border-radius:13px;padding:11px 12px;font:800 13px 'Nunito';display:flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:50%;background:var(--c-trans)"></span>UPI</div></div>
+    </div>
+    <div style="padding:14px 20px 0"><div style="background:#1F2C28;border:1.5px solid #2E3B37;border-radius:13px;padding:11px 14px;font:600 13px 'Nunito';color:#6B7C77">Add a note (optional)…</div></div>
+    <div style="flex:1"></div>
+    <div style="padding:0 20px 24px"><div style="background:var(--mint);color:#0F1A17;font:800 16px 'Nunito';text-align:center;padding:15px;border-radius:17px;box-shadow:0 8px 22px rgba(52,198,168,.4)">Save expense</div></div>
+  </div>
+</div>
+
+<!-- E4 Reports dark -->
+<div style="position:absolute;left:1190px;top:3460px;width:300px">
+  <div data-drags-parent="1" style="position:absolute;top:-24px;font:800 12px 'Nunito';color:var(--ink2)">E4 · Insights (dark)</div>
+  <div style="font-family:'Nunito',sans-serif;color:#EAF1EE;background:#16201D;border-radius:34px;box-shadow:0 12px 34px rgba(0,0,0,.45);overflow:hidden;border:1px solid #2E3B37;height:640px;position:relative;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 22px 4px;font:800 12px 'Nunito';color:#EAF1EE"><span>9:41</span><span style="display:flex;gap:5px"><svg width="16" height="11" viewBox="0 0 16 11"><rect y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="12" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg><svg width="23" height="11" viewBox="0 0 23 11"><rect x=".5" y=".5" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/><rect x="20" y="3.5" width="2" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div style="overflow:hidden;flex:1;display:flex;flex-direction:column">
+      <div style="padding:6px 20px 0;display:flex;justify-content:space-between;align-items:center"><div style="font:900 22px 'Nunito'">Insights</div><div style="background:#1F2C28;border:1px solid #2E3B37;border-radius:11px;padding:7px 11px;font:800 12px 'Nunito'">June ▾</div></div>
+      <div style="margin:14px 18px 0;background:linear-gradient(150deg,#1E9E84,#2BC0A2);border-radius:20px;padding:16px 18px;box-shadow:0 10px 24px rgba(30,158,132,.4)"><div style="font:800 11px 'Nunito';color:rgba(255,255,255,.85)">TOTAL SPENT IN JUNE</div><div style="font:900 30px 'Nunito';color:#fff">₹12,480</div><div style="display:flex;align-items:center;gap:6px;margin-top:4px"><span style="background:rgba(255,255,255,.25);color:#fff;font:800 10.5px 'Nunito';padding:3px 8px;border-radius:8px">▲ 8%</span><span style="font:700 11px 'Nunito';color:rgba(255,255,255,.9)">vs ₹11,560 last month</span></div></div>
+      <div style="display:flex;gap:10px;padding:12px 18px 0">
+        <div style="flex:1;background:#1F2C28;border:1px solid #2E3B37;border-radius:15px;padding:12px"><div style="font:700 10px 'Nunito';color:#7E8F8A">BIGGEST EXPENSE</div><div style="font:900 17px 'Nunito';margin-top:3px">₹8,500</div><div style="font:700 10.5px 'Nunito';color:#7E8F8A">Rent · 1 Jun</div></div>
+        <div style="flex:1;background:#1F2C28;border:1px solid #2E3B37;border-radius:15px;padding:12px"><div style="font:700 10px 'Nunito';color:#7E8F8A">DAILY AVERAGE</div><div style="font:900 17px 'Nunito';margin-top:3px">₹416</div><div style="font:700 10.5px 'Nunito';color:#7E8F8A">over 30 days</div></div>
+      </div>
+      <div style="padding:14px 18px 6px;font:900 13px 'Nunito'">Category breakdown</div>
+      <div style="padding:0 18px;display:flex;flex-direction:column;gap:9px">
+        <div><div style="display:flex;justify-content:space-between;font:800 11.5px 'Nunito';margin-bottom:4px"><span>Rent</span><span>₹8,500</span></div><div style="height:7px;background:#2A3733;border-radius:5px"><div style="width:68%;height:100%;background:var(--c-rent);border-radius:5px"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;font:800 11.5px 'Nunito';margin-bottom:4px"><span>Food &amp; Dining</span><span>₹2,140</span></div><div style="height:7px;background:#2A3733;border-radius:5px"><div style="width:32%;height:100%;background:var(--c-food);border-radius:5px"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;font:800 11.5px 'Nunito';margin-bottom:4px"><span>Groceries</span><span>₹1,840</span></div><div style="height:7px;background:#2A3733;border-radius:5px"><div style="width:24%;height:100%;background:var(--c-groc);border-radius:5px"></div></div></div>
+      </div>
+    </div>
+    <div style="padding:12px 18px 22px"><div style="background:#1F2C28;border:1.5px solid var(--mint);color:#5FE0C0;font:800 15px 'Nunito';text-align:center;padding:13px;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5FE0C0" stroke-width="2.2"><path d="M12 3v12M8 11l4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Export CSV</div></div>
+  </div>
+</div>
+
+<!-- closing post-it -->
+<div style="position:absolute;left:1600px;top:3520px;width:300px;background:#FEF4A8;padding:16px 18px;font:700 13px/1.55 'Nunito';color:#6b5e1f;box-shadow:0 2px 12px rgba(0,0,0,.1);transform:rotate(1deg);border-radius:4px">
+  <b>System notes</b><br>· Nunito throughout · mint #34C6A8 accent<br>· 11 pastel category colors, each with a rounded icon<br>· 8px soft grid, pill buttons, 34px phone radius<br>· Penny the rupee-coin mascot for empty/success states
+</div>
+</x-dc>
+</body>
+</html>
