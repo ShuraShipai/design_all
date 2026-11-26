@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calora - sign up</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap');
+
+:root{
+  --canvas:#F6F4EC;
+  --surface:#FFFFFF;
+  --surface-alt:#EFEDE3;
+  --ink:#1F2A24;
+  --ink-soft:#5C6B60;
+  --ink-faint:#93A19A;
+  --moss:#3F6B52;
+  --moss-deep:#2C4E3C;
+  --moss-tint:#E3E8DC;
+  --protein:#B98A4E;
+  --carb:#C9A24A;
+  --fat:#8B5E6B;
+  --water:#4A7C82;
+  --error:#B1503F;
+  --border:rgba(31,42,36,0.10);
+  --border-strong:rgba(31,42,36,0.16);
+  --shadow-sm:0 1px 2px rgba(31,42,36,0.06);
+  --shadow-md:0 4px 16px rgba(31,42,36,0.07);
+  --shadow-lg:0 12px 32px rgba(31,42,36,0.14);
+  --radius-s:10px;
+  --radius-m:16px;
+  --radius-l:24px;
+  --radius-full:999px;
+}
+html[data-theme="dark"]{
+  --canvas:#12160F;
+  --surface:#1B2119;
+  --surface-alt:#232A21;
+  --ink:#EEEFE9;
+  --ink-soft:#9BA89E;
+  --ink-faint:#66756B;
+  --moss:#86BB98;
+  --moss-deep:#A6D3B4;
+  --moss-tint:#212B22;
+  --protein:#D9AE72;
+  --carb:#DFC276;
+  --fat:#B18A96;
+  --water:#7FB4B9;
+  --error:#D98A78;
+  --border:rgba(238,239,233,0.09);
+  --border-strong:rgba(238,239,233,0.16);
+  --shadow-sm:0 1px 2px rgba(0,0,0,0.3);
+  --shadow-md:0 6px 20px rgba(0,0,0,0.35);
+  --shadow-lg:0 16px 40px rgba(0,0,0,0.45);
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(63,107,82,0.06), transparent 45%),
+    radial-gradient(circle at 85% 90%, rgba(139,94,107,0.05), transparent 45%),
+    #EDEBE2;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:40px 16px;
+  color:var(--ink);
+}
+h1,h2,h3,h4{margin:0;font-family:'Fraunces',serif;font-weight:600;}
+p{margin:0;}
+button{font-family:inherit;}
+a{color:inherit;text-decoration:none;}
+.icon{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;display:block;}
+
+.studio{display:flex;flex-direction:column;align-items:center;gap:18px;}
+.studio-head{display:flex;align-items:center;gap:14px;color:#3d443d;}
+.studio-head .brandmark{width:26px;height:26px;}
+.studio-title{font-family:'Fraunces',serif;font-size:15px;font-weight:600;letter-spacing:0.2px;}
+.studio-sub{font-size:12px;color:#7a8177;}
+
+.device{
+  width:390px;
+  height:830px;
+  background:#0b0d0b;
+  border-radius:52px;
+  padding:14px;
+  box-shadow:var(--shadow-lg), 0 0 0 1px rgba(0,0,0,0.3);
+  position:relative;
+}
+.device::before{
+  content:"";
+  position:absolute;
+  top:14px;left:50%;transform:translateX(-50%);
+  width:120px;height:26px;background:#0b0d0b;border-radius:0 0 18px 18px;
+  z-index:30;
+}
+.screen-window{
+  width:100%;height:100%;
+  background:var(--canvas);
+  border-radius:38px;
+  overflow:hidden;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+}
+.statusbar{
+  height:46px;flex:none;display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px 0 24px; font-size:13px; font-weight:600; color:var(--ink); position:relative; z-index:20;
+}
+.statusbar .dots{display:flex;gap:4px;align-items:center;}
+
+.screens{flex:1;position:relative;overflow:hidden;}
+.screen{
+  position:absolute; inset:0;
+  display:none;
+  flex-direction:column;
+  overflow-y:auto;
+  -ms-overflow-style:none; scrollbar-width:none;
+}
+.screen::-webkit-scrollbar{display:none;}
+.screen.active{display:flex;}
+
+.btn-primary{
+  background:var(--moss); color:#fff; border:none; border-radius:var(--radius-full);
+  padding:13px 20px; font-weight:600; font-size:14.5px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  width:100%; box-shadow:0 4px 14px rgba(63,107,82,0.25);
+}
+html[data-theme="dark"] .btn-primary{box-shadow:0 4px 14px rgba(0,0,0,0.4);}
+.btn-ghost{
+  background:none;border:none;color:var(--moss);font-weight:600;font-size:13.5px;cursor:pointer;
+  display:flex;align-items:center;gap:4px;
+}
+.input-wrap{display:flex; flex-direction:column; gap:6px; margin-bottom:14px;}
+.input-label{font-size:12.5px; font-weight:600; color:var(--ink-soft);}
+.input{
+  border:1px solid var(--border-strong); background:var(--surface); border-radius:var(--radius-s);
+  padding:13px 14px; font-size:15px; color:var(--ink); width:100%; font-family:inherit;
+}
+.input:focus{outline:2px solid var(--moss); outline-offset:1px;}
+.static-input{
+  display:flex;
+  align-items:center;
+  color:var(--ink);
+}
+.brandmark{color:var(--moss);}
+
+.auth-static{
+  justify-content:center;
+  padding:30px 24px 34px;
+}
+.auth-static .auth-logo{
+  margin-bottom:18px;
+}
+.auth-static h2{
+  font-size:24px;
+  margin-bottom:8px;
+}
+.auth-static p{
+  color:var(--ink-soft);
+  font-size:13.5px;
+  line-height:1.45;
+  margin-bottom:24px;
+}
+.auth-static .btn-primary{
+  margin-top:6px;
+}
+.auth-foot{
+  margin-top:16px;
+  text-align:center;
+  color:var(--ink-soft);
+  font-size:12.5px;
+}
+</style>
+</head>
+<body>
+
+<div class="studio">
+  <div class="studio-head">
+    <svg class="brandmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21c-4.4 0-7-3.2-7-7.4C5 8.6 9.2 4.6 12 3c2.8 1.6 7 5.6 7 10.6 0 4.2-2.6 7.4-7 7.4Z"/><path d="M12 21v-7"/><path d="M12 12c0-3 2-5 4-6"/></svg>
+    <div>
+      <div class="studio-title">Calora</div>
+      <div class="studio-sub">Nutrition &amp; wellness · UI/UX prototype</div>
+    </div>
+  </div>
+
+  <div class="device">
+    <div class="screen-window">
+      <div class="statusbar">
+        <span>9:41</span>
+        <div class="dots">
+          <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><rect x="0" y="6" width="3" height="5" rx="0.5"/><rect x="4.5" y="4" width="3" height="7" rx="0.5"/><rect x="9" y="2" width="3" height="9" rx="0.5"/><rect x="13" y="0" width="3" height="11" rx="0.5"/></svg>
+          <svg width="16" height="11" viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="2" width="19" height="12" rx="3"/><rect x="21.5" y="6" width="1.6" height="4" rx="0.8" fill="currentColor" stroke="none"/><rect x="3" y="4" width="14" height="8" rx="1.6" fill="currentColor" stroke="none"/></svg>
+        </div>
+      </div>
+
+      <div class="screens">
+        <main class="screen active auth-static">
+          <div class="auth-logo"><svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="var(--moss)" stroke-width="1.4"><path d="M12 21c-4.4 0-7-3.2-7-7.4C5 8.6 9.2 4.6 12 3c2.8 1.6 7 5.6 7 10.6 0 4.2-2.6 7.4-7 7.4Z"/><path d="M12 21v-7"/><path d="M12 12c0-3 2-5 4-6"/></svg></div>
+          <h2>Create your account</h2>
+          <p>Start with a simple profile so Calora can personalize your plan.</p>
+          <div class="input-wrap"><div class="input-label">Name</div><div class="input static-input">Aanya</div></div>
+          <div class="input-wrap"><div class="input-label">Email</div><div class="input static-input">aanya@example.com</div></div>
+          <div class="input-wrap"><div class="input-label">Password</div><div class="input static-input">••••••••</div></div>
+          <button class="btn-primary" type="button" onclick="window.location.href='onboarding.html'">Create Account</button>
+          <div class="auth-foot">Already have an account? Log in</div>
+        </main>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
